@@ -704,8 +704,10 @@ window.addEventListener('DOMContentLoaded', () => {
         </div>
     </div>`;
     
-    // Menyisipkan 4 kamera ke bagian paling atas elemen body
-    document.body.insertAdjacentHTML('afterbegin', cameraHTML);
+// Menyisipkan 4 kamera ke dalam kontainer utama halaman web
+const targetContainer = document.querySelector('.container') || document.body;
+targetContainer.insertBefore(document.createRange().createContextualFragment(cameraHTML), targetContainer.firstChild);
+    
 });
             
 </script>
