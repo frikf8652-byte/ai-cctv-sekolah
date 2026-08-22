@@ -709,7 +709,156 @@ const targetContainer = document.querySelector('.container') || document.body;
 targetContainer.insertBefore(document.createRange().createContextualFragment(cameraHTML), targetContainer.firstChild);
     
 });
-            
+// ==========================================
+// PENGEMBANGAN FITUR KHUSUS: SMARTCLASS AI V2
+// ==========================================
+
+// 1. Fungsi Logika Tombol On/Off Khusus Privasi Kelas
+function ubahPrivasiKelas(nomorCam) {
+    const teksStatus = document.getElementById(`status-kelas-0${nomorCam}`);
+    const layarMonitor = document.getElementById(`layar-kelas-0${nomorCam}`);
+    
+    if (!teksStatus || !layarMonitor) return;
+
+    if (teksStatus.innerText !== "OFF (PRIVASI)") {
+        teksStatus.innerText = "OFF (PRIVASI)";
+        teksStatus.style.color = "#ffb703";
+        layarMonitor.style.background = "#1a0f1a";
+        layarMonitor.innerHTML = `<span style="color: #ff4d4d; font-weight: bold; font-size: 11px;">❌ PRIVACY MODE ACTIVE</span>`;
+        if (typeof showAlert === "function") {
+            showAlert(`Kamera 0${nomorCam} Nonaktif`, `Mode privasi aktif untuk menjaga privasi siswa saat istirahat.`, true);
+        }
+        if (typeof addLog === "function") {
+            addLog("🔒", `Privacy Mode Cam 0${nomorCam}`, `Kamera kelas dinonaktifkan sementara.`);
+        }
+    } else {
+        teksStatus.innerText = "ONLINE";
+        teksStatus.style.color = "#2ec4b6";
+        layarMonitor.style.background = "#0b0b14";
+        layarMonitor.innerHTML = `<span style="color: #555; font-size: 11px;">📺 FEED READY (ONLINE)</span>`;
+        if (typeof showAlert === "function") {
+            showAlert(`Kamera 0${nomorCam} Aktif`, `Kamera kelas kembali online dan siap memantau.`, false);
+        }
+    }
+}
+
+// 2. Fungsi Simulasi Deteksi AI Khusus Kotak Hijau Kelas
+function simulasiAiKelas(nomorCam) {
+    const teksStatus = document.getElementById(`status-kelas-0${nomorCam}`);
+    const layarMonitor = document.getElementById(`layar-kelas-0${nomorCam}`);
+    
+    if (!teksStatus || !layarMonitor) return;
+
+    if (teksStatus.innerText === "OFF (PRIVASI)") {
+        if (typeof showAlert === "function") {
+            showAlert("Gagal Memulai AI", "Kamera dalam Mode Privasi. Aktifkan kamera terlebih dahulu!", true);
+        }
+        return;
+    }
+
+    const namaSektor = ["", "Depan (Deket Guru)", "Samping Kiri", "Samping Kanan", "Belakang Kelas"];
+    
+    teksStatus.innerText = "LIVE (AI SCAN)";
+    teksStatus.style.color = "#e63946";
+    layarMonitor.innerHTML = `<span style="color: #2ec4b6; font-weight: bold; font-size: 11px;">🤖 SCANNING AREA...</span>`;
+
+    if (typeof addLog === "function") {
+        addLog("🤖", `AI Memindai Kamera 0${nomorCam}`, `Memeriksa area ${namaSektor[nomorCam]}...`);
+    }
+
+    setTimeout(() => {
+        let narasiPeringatan = "";
+        let borderWarna = "#2ec4b6";
+        let backgroundSaja = "rgba(46,196,182,0.15)";
+        let teksTag = "";
+
+        switch(nomorCam) {
+            case 1:
+                narasiPeringatan = "Jam Kos: Kelas Terdeteksi Kosong / Guru Tidak Ada";
+                borderWarna = "#ff4d4d";
+                backgroundSaja = "rgba(255,77,77,0.15)";
+                teksTag = "⚠️ NO_TEACHER_DETECTED (98%)";
+                break;
+            case 2:
+                narasiPeringatan = "Siswa Terdeteksi Bermain HP saat Jam Pelajaran";
+                teksTag = "🟩 PHONE_USE_DETECTED (94%)";
+                break;
+            case 3:
+                narasiPeringatan = "Peringatan! Terdeteksi Keributan / Aktivitas Tidak Kondusif";
+                teksTag = "🟩 ROWDY_CROWD_DETECTED (91%)";
+                break;
+            case 4:
+                narasiPeringatan = "Siswa Terdeteksi Keluar Kelas Menuju Kantin saat Jam Pelajaran";
+                teksTag = "🟩 STRAY_STUDENT_KANTIN (96%)";
+                break;
+        }
+
+        layarMonitor.innerHTML = `
+            <div style="position: absolute; top: 5px; left: 5px; background: rgba(0,0,0,0.6); color: #fff; padding: 2px 5px; font-size: 8px; border-radius: 3px; font-family: monospace;">CAM_CLASS_0${nomorCam}</div>
+            <div style="position: absolute; border: 2px solid ${borderWarna}; background: ${backgroundSaja}; top: 25px; left: 20px; width: 80%; height: 70px; border-radius: 4px; padding: 4px; box-sizing: border-box;">
+                <span style="color: ${borderWarna}; font-size: 8px; font-weight: bold; background: #0b0b14; padding: 1px 3px; border-radius: 2px;">${teksTag}</span>
+            </div>
+        `;
+        
+        if (typeof showAlert === "function") {
+            showAlert(`AI Kamera 0${nomorCam}`, narasiPeringatan, nomorCam === 1);
+        }
+        if (typeof addLog === "function") {
+            addLog("🚨", `Hasil Deteksi Cam 0${nomorCam}`, narasiPeringatan);
+        }
+    }, 1500);
+}
+
+// 3. Injeksi Layout Tambahan Khusus 4 Kamera Kelas Baru
+window.addEventListener('DOMContentLoaded', () => {
+    const layoutKelasHTML = `
+    <div style="margin: 20px 0; padding: 10px; border-bottom: 2px dashed #2d2d44;">
+        <h3 style="color: #fff; margin-bottom: 5px; font-size: 16px;">📹 SmartClass AI — Ruang Kelas XI MIPA 3</h3>
+        <p style="color: #666; font-size: 12px; margin: 0 0 15px 0;">Sistem pemantauan internal kelas cerdas (4 Sudut Pandang)</p>
+    </div>
+    <div class="camera-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; padding: 20px; background: #0f0f1a; border-radius: 10px; margin-bottom: 35px; border: 1px solid #2d2d44;">
+        
+        <!-- Cam 1 -->
+        <div class="camera-card" style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #ff4d4d;">
+            <h4 style="margin: 0 0 5px 0; font-size: 13px;">Kamera 01 — Depan (Deket Guru)</h4>
+            <div id="layar-kelas-01" style="width: 100%; height: 120px; background: #0b0b14; border-radius: 6px; margin-bottom: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: #555; position: relative; overflow: hidden; border: 1px solid #2d2d44;">
+                <span>📺 FEED READY (ONLINE)</span>
+            </div>
+            <p style="margin: 0 0 12px 0; font-size: 12px;">Status: <span id="status-kelas-01" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
+            <button onclick="ubahPrivasiKelas(1)" style="background: #e63946; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;">ON/OFF PRIVASI</button>
+            <button onclick="simulasiAiKelas(1)" style="background: #4a4e69; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-left: 3px;">Simulasi AI</button>
+        </div>
+
+        <!-- Cam 2 -->
+        <div class="camera-card" style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #2ec4b6;">
+            <h4 style="margin: 0 0 5px 0; font-size: 13px;">Kamera 02 — Samping Kiri</h4>
+            <div id="layar-kelas-02" style="width: 100%; height: 120px; background: #0b0b14; border-radius: 6px; margin-bottom: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: #555; position: relative; overflow: hidden; border: 1px solid #2d2d44;">
+                <span>📺 FEED READY (ONLINE)</span>
+            </div>
+            <p style="margin: 0 0 12px 0; font-size: 12px;">Status: <span id="status-kelas-02" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
+            <button onclick="ubahPrivasiKelas(2)" style="background: #e63946; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;">ON/OFF PRIVASI</button>
+            <button onclick="simulasiAiKelas(2)" style="background: #4a4e69; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-left: 3px;">Simulasi AI</button>
+        </div>
+
+        <!-- Cam 3 -->
+        <div class="camera-card" style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #2ec4b6;">
+            <h4 style="margin: 0 0 5px 0; font-size: 13px;">Kamera 03 — Samping Kanan</h4>
+            <div id="layar-kelas-03" style="width: 100%; height: 120px; background: #0b0b14; border-radius: 6px; margin-bottom: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: #555; position: relative; overflow: hidden; border: 1px solid #2d2d44;">
+                <span>📺 FEED READY (ONLINE)</span>
+            </div>
+            <p style="margin: 0 0 12px 0; font-size: 12px;">Status: <span id="status-kelas-03" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
+            <button onclick="ubahPrivasiKelas(3)" style="background: #e63946; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;">ON/OFF PRIVASI</button>
+            <button onclick="simulasiAiKelas(3)" style="background: #4a4e69; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-left: 3px;">Simulasi AI</button>
+        </div>
+
+        <!-- Cam 4 -->
+        <div class="camera-card" style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #2ec4b6;">
+            <h4 style="margin: 0 0 5px 0; font-size: 13px;">Kamera 04 — Belakang Kelas</h4>
+            <div id="layar-kelas-04" style="width: 100%; height: 120px; background: #0b0b14; border-radius: 6px; margin-bottom: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: #555; position: relative; overflow: hidden; border: 1px solid #2d2d44;">
+                <span>📺 FEED READY (ONLINE)</span>
+            </div>
+            <p style="margin: 0 0 12px 0; font-size: 12px;">Status: <span id="status-kelas-04" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
+        
 </script>
 
 </body>
