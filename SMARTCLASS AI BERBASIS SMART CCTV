@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring AI CCTV</title>
+    <style>
+        /* CSS untuk mengatur tampilan gelap (Dark Mode) seperti di foto */
+        body {
+            background-color: #0b0f19;
+            color: #ffffff;
+            font-family: sans-serif;
+            padding: 20px;
+        }
+        .camera-card {
+            background-color: #161b26;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            max-width: 500px;
+        }
+        .video-feed {
+            background-color: #090d16;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #4a5568;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        /* Style ketika mode privasi aktif */
+        .video-feed.privacy-active {
+            color: #ef4444;
+        }
+        .status-online { color: #10b981; font-weight: bold; }
+        .status-offline { color: #f59e0b; font-weight: bold; }
+        
+        .btn-privasi {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        .btn-simulasi {
+            background-color: #374151;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- KOTAK KAMERA 04 (HTML) -->
+    <div class="camera-card">
+        <h3>Kamera 04 – Belakang Kelas</h3>
+        
+        <!-- Area Video -->
+        <div id="feed-04" class="video-feed">
+            📺 FEED READY (ONLINE)
+        </div>
+        
+        <p>Status: <span id="status-04" class="status-online">ONLINE</span></p>
+        
+        <!-- Tombol Aksi -->
+        <button class="btn-privasi" onclick="togglePrivasi()">ON/OFF PRIVASI</button>
+        <button class="btn-simulasi">Simulasi AI</button>
+    </div>
+
+    <!-- LOGIKA TOMBOL (JavaScript) -->
+    <script>
+        let isPrivacyActive = false;
+
+        function togglePrivasi() {
+            const feed = document.getElementById('feed-04');
+            const status = document.getElementById('status-04');
+            
+            isPrivacyActive = !isPrivacyActive; // Membalikkan status true/false
+            
+            if (isPrivacyActive) {
+                // Tampilan saat Privasi Aktif
+                feed.innerText = "❌ PRIVACY MODE ACTIVE";
+                feed.classList.add('privacy-active');
+                status.innerText = "OFF (PRIVASI)";
+                status.className = "status-offline";
+            } else {
+                // Tampilan saat Normal/Online
+                feed.innerText = "📺 FEED READY (ONLINE)";
+                feed.classList.remove('privacy-active');
+                status.innerText = "ONLINE";
+                status.className = "status-online";
+            }
+        }
+    </script>
+
+</body>
+</html>
+
