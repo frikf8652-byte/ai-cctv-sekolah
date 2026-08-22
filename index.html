@@ -808,9 +808,6 @@ function simulasiAiKelas(nomorCam) {
         }
     }, 1500);
 }
-
-// 3. Injeksi Layout Tambahan Khusus 4 Kamera Kelas Baru
-window.addEventListener('DOMContentLoaded', () => {
     const layoutKelasHTML = `
     <div style="margin: 20px 0; padding: 10px; border-bottom: 2px dashed #2d2d44;">
         <h3 style="color: #fff; margin-bottom: 5px; font-size: 16px;">📹 SmartClass AI — Ruang Kelas XI MIPA 3</h3>
@@ -858,7 +855,16 @@ window.addEventListener('DOMContentLoaded', () => {
                 <span>📺 FEED READY (ONLINE)</span>
             </div>
             <p style="margin: 0 0 12px 0; font-size: 12px;">Status: <span id="status-kelas-04" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
-        
+            <button onclick="ubahPrivasiKelas(4)" style="background: #e63946; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;">ON/OFF PRIVASI</button>
+            <button onclick="simulasiAiKelas(4)" style="background: #4a4e69; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-left: 3px;">Simulasi AI</button>
+        </div>
+
+    </div>\`;
+
+    const wadahUtama = document.querySelector('.container') || document.body;
+    wadahUtama.insertBefore(document.createRange().createContextualFragment(layoutKelasHTML), wadahUtama.firstChild);
+});
+
 </script>
 
 </body>
