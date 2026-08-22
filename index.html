@@ -3,869 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>AI CCTV Sekolah</title>
-
+    <title>SmartClass AI — Ruang Kelas XI MIPA 3</title>
+    <!-- Bootstrap 5 CSS via CDN -->
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <!-- Bootstrap Icons via CDN -->
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <!-- Chart.js via CDN untuk Grafik Statistik -->
+    <script src="https://jsdelivr.net"></script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
+        :root {
+            --bg-main: #0B111E;
+            --bg-card: #131A26;
+            --bg-inner-card: #1A2333;
+            --text-primary: #FFFFFF;
+            --text-secondary: #8E9AA8;
+            --accent-cyan: #00E5FF;
+            --accent-green: #00E676;
+            --accent-red: #FF3D00;
         }
 
         body {
-            background: #0b1220;
-            color: white;
-            min-height: 100vh;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-bottom: 50px;
         }
 
-        /* HEADER */
-        header {
-            height: 70px;
-            background: #111c30;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 30px;
-            border-bottom: 1px solid #26344d;
+        .header-bar {
+            background-color: var(--bg-card);
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 25px;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-icon {
-            width: 42px;
-            height: 42px;
-            background: #2563eb;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-        }
-
-        .logo h1 {
-            font-size: 20px;
-        }
-
-        .logo p {
-            color: #8ea0bd;
-            font-size: 12px;
-            margin-top: 3px;
-        }
-
-        .status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #102c25;
-            padding: 10px 15px;
-            border-radius: 20px;
-            color: #4ade80;
+        .system-status {
             font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-green);
         }
 
-        .status-dot {
-            width: 9px;
-            height: 9px;
-            background: #22c55e;
-            border-radius: 50%;
-        }
-
-        /* CONTENT */
-        .container {
-            padding: 25px;
-            max-width: 1400px;
-            margin: auto;
-        }
-
-        .title {
-            margin-bottom: 20px;
-        }
-
-        .title h2 {
-            font-size: 26px;
-        }
-
-        .title p {
-            color: #8292ac;
-            margin-top: 5px;
-        }
-
-        /* STATISTICS */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: #111c30;
-            border: 1px solid #26344d;
+        .cctv-card {
+            background-color: var(--bg-card);
+            border: none;
             border-radius: 12px;
             padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-cyan);
         }
 
-        .stat-card p {
-            color: #8ea0bd;
-            font-size: 13px;
-            margin-bottom: 10px;
-        }
-
-        .stat-card h3 {
-            font-size: 30px;
-        }
-
-        /* MAIN GRID */
-        .main-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-        }
-
-        .card {
-            background: #111c30;
-            border: 1px solid #26344d;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .card-header {
-            padding: 15px 20px;
-            border-bottom: 1px solid #26344d;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .card-header h3 {
+        .cctv-title {
             font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
         }
 
-        .camera-status {
-            color: #4ade80;
-            font-size: 12px;
-        }
+        .status-online { color: var(--accent-cyan); font-weight: 600; }
+        .status-offline { color: #FFB300; font-weight: 600; }
 
-        /* CAMERA */
-        .camera {
-            height: 400px;
-            background:
-                linear-gradient(rgba(15, 23, 42, .6), rgba(15, 23, 42, .6)),
-                repeating-linear-gradient(
-                    0deg,
-                    #1e293b 0px,
-                    #1e293b 2px,
-                    #172033 2px,
-                    #172033 4px
-                );
-            position: relative;
+        .feed-placeholder {
+            background-color: #090D14;
+            height: 150px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 13px;
         }
 
-        .camera-text {
-            text-align: center;
-            color: #71829e;
-        }
-
-        .camera-text .camera-icon {
-            font-size: 55px;
-            margin-bottom: 10px;
-        }
-
-        .camera-label {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: rgba(0,0,0,.65);
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-        }
-
-        .live {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #dc2626;
-            padding: 7px 12px;
-            border-radius: 5px;
-            font-size: 12px;
+        .btn-live {
+            background-color: var(--accent-red);
+            color: white;
+            border: none;
             font-weight: bold;
         }
+        .btn-live:hover { background-color: #D53400; color: white; }
 
-        /* DETECTION BOX */
-        .detection-box {
-            position: absolute;
-            width: 130px;
-            height: 180px;
-            border: 2px solid #22c55e;
-            top: 100px;
-            left: 45%;
-            display: none;
-        }
-
-        .detection-label {
-            position: absolute;
-            top: -25px;
-            left: -2px;
-            background: #22c55e;
-            color: #06130a;
-            padding: 5px 8px;
-            font-size: 11px;
+        .btn-privasi {
+            background-color: #E53935;
+            color: white;
+            border: none;
             font-weight: bold;
         }
+        .btn-privasi:hover { background-color: #C62828; color: white; }
 
-        /* ALERT */
-        .alert {
-            margin: 15px;
-            padding: 15px;
-            border-radius: 8px;
-            background: #172338;
-            border-left: 4px solid #22c55e;
+        .btn-simulasi {
+            background-color: #252F3F;
+            color: var(--text-primary);
+            border: 1px solid rgba(255,255,255,0.1);
         }
+        .btn-simulasi:hover { background-color: #313E52; color: white; }
 
-        .alert.warning {
-            border-left-color: #f59e0b;
-        }
-
-        .alert strong {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .alert small {
-            color: #8ea0bd;
-        }
-
-        /* LOG */
-        .log {
-            padding: 15px;
-            max-height: 400px;
-            overflow-y: auto;
+        .section-divider {
+            border-top: 1px dashed rgba(255,255,255,0.15);
+            margin: 35px 0;
         }
 
         .log-item {
+            background-color: var(--bg-inner-card);
+            border-radius: 10px;
             padding: 12px;
-            border-bottom: 1px solid #26344d;
+            margin-bottom: 10px;
             display: flex;
-            gap: 10px;
+            align-items: flex-start;
+            border-left: 4px solid var(--accent-cyan);
         }
+        .log-item.danger { border-left-color: var(--accent-red); }
+        .log-item.warning { border-left-color: #FFB300; }
+        .log-icon { font-size: 18px; margin-right: 12px; }
+        .log-time { font-size: 11px; color: var(--text-secondary); }
 
-        .log-icon {
-            width: 30px;
-            height: 30px;
-            border-radius: 7px;
-            background: #1e3a5f;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .log-item p {
-            font-size: 13px;
-        }
-
-        .log-item small {
-            color: #71829e;
-            font-size: 11px;
-        }
-
-        /* BUTTON */
-        .controls {
-            padding: 15px;
-            display: flex;
-            gap: 10px;
-        }
-
-        button {
-            border: none;
-            padding: 11px 16px;
-            border-radius: 7px;
-            cursor: pointer;
-            color: white;
-            background: #2563eb;
-            font-weight: bold;
-        }
-
-        button:hover {
-            background: #1d4ed8;
-        }
-
-        button.danger {
-            background: #dc2626;
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 900px) {
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 500px) {
-            header {
-                padding: 0 15px;
-            }
-
-            .container {
-                padding: 15px;
-            }
-
-            .stats {
-                grid-template-columns: 1fr;
-            }
-
-            .logo h1 {
-                font-size: 16px;
-            }
-
-            .status {
-                font-size: 11px;
-                padding: 8px;
-            }
+        /* Flowchart Node Styling */
+        .flow-node {
+            background-color: var(--bg-inner-card);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            font-size: 12px;
         }
     </style>
 </head>
-
 <body>
 
-<header>
-
-    <div class="logo">
-
-        <div class="logo-icon">
-            📹
-        </div>
-
-        <div>
-            <h1>AI CCTV SEKOLAH</h1>
-            <p>Smart School Security System</p>
-        </div>
-
-    </div>
-
-    <div class="status">
-        <span class="status-dot"></span>
-        AI SYSTEM AKTIF
-    </div>
-
-</header>
-
-
-<div class="container">
-
-    <div class="title">
-        <h2>Dashboard Monitoring</h2>
-        <p>Pemantauan keamanan sekolah berbasis Artificial Intelligence</p>
-    </div>
-<!-- ========================================== -->
-<!-- ZONA TAMPILAN SMARTCLASS AI RUANG KELAS XI MIPA 3 -->
-<!-- ========================================== -->
-<div style="margin: 25px 0 10px 0; padding-bottom: 10px; border-bottom: 2px dashed #2d2d44; width: 100%;">
-    <h3 style="color: #fff; margin-bottom: 5px; font-size: 18px;">📹 SmartClass AI — Ruang Kelas XI MIPA 3</h3>
-    <p style="color: #888; font-size: 13px; margin: 0;">Sistem pemantauan internal kelas cerdas (4 Sudut Pandang)</p>
-</div>
-
-<div class="camera-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-bottom: 35px; width: 100%;">
-    
-    <!-- Kamera 01 — Depan -->
-    <div style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #ff4d4d; border: 1px solid #2d2d44; position: relative; box-sizing: border-box;">
-        <h4 style="margin: 0 0 10px 0; font-size: 14px;">Kamera 01 — Depan (Deket Guru)</h4>
-        <div id="layar-kelas-01" style="width: 100%; height: 120px; background: #0b0b14; border-radius: 6px; margin-bottom: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: #555; position: relative; overflow: hidden; border: 1px solid #2d2d44;">
-            <span>📺 FEED READY (ONLINE)</span>
-        </div>
-        <p style="margin: 0 0 12px 0; font-size: 13px;">Status: <span id="status-kelas-01" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
-        <button onclick="ubahPrivasiKelas(1)" style="background: #e63946; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;">ON/OFF PRIVASI</button>
-        <button onclick="simulasiAiKelas(1)" style="background: #4a4e69; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-left: 3px;">Simulasi AI</button>
-    </div>
-
-    <!-- Kamera 02 — Samping Kiri -->
-    <div style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #2ec4b6; border: 1px solid #2d2d44; position: relative; box-sizing: border-box;">
-        <h4 style="margin: 0 0 10px 0; font-size: 14px;">Kamera 02 — Samping Kiri</h4>
-        <div id="layar-kelas-02" style="width: 100%; height: 120px; background: #0b0b14; border-radius: 6px; margin-bottom: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: #555; position: relative; overflow: hidden; border: 1px solid #2d2d44;">
-            <span>📺 FEED READY (ONLINE)</span>
-        </div>
-        <p style="margin: 0 0 12px 0; font-size: 13px;">Status: <span id="status-kelas-02" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
-        <button onclick="ubahPrivasiKelas(2)" style="background: #e63946; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;">ON/OFF PRIVASI</button>
-        <button onclick="simulasiAiKelas(2)" style="background: #4a4e69; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-left: 3px;">Simulasi AI</button>
-    </div>
-
-    <!-- Kamera 03 — Samping Kanan -->
-    <div style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #2ec4b6; border: 1px solid #2d2d44; position: relative; box-sizing: border-box;">
-        <h4 style="margin: 0 0 10px 0; font-size: 14px;">Kamera 03 — Samping Kanan</h4>
-        <div id="layar-kelas-03" style="width: 100%; height: 120px; background: #0b0b14; border-radius: 6px; margin-bottom: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: #555; position: relative; overflow: hidden; border: 1px solid #2d2d44;">
-            <span>📺 FEED READY (ONLINE)</span>
-        </div>
-        <p style="margin: 0 0 12px 0; font-size: 13px;">Status: <span id="status-kelas-03" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
-        <button onclick="ubahPrivasiKelas(3)" style="background: #e63946; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;">ON/OFF PRIVASI</button>
-        <button onclick="simulasiAiKelas(3)" style="background: #4a4e69; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-left: 3px;">Simulasi AI</button>
-    </div>
-
-    <!-- Kamera 04 — Belakang Kelas -->
-    <div style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #2ec4b6; border: 1px solid #2d2d44; position: relative; box-sizing: border-box;">
-        <h4 style="margin: 0 0 10px 0; font-size: 14px;">Kamera 04 — Belakang Kelas</h4>
-        <div id="layar-kelas-04" style="width: 100%; height: 120px; background: #0b0b14; border-radius: 6px; margin-bottom: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: #555; position: relative; overflow: hidden; border: 1px solid #2d2d44;">
-            <span>📺 FEED READY (ONLINE)</span>
-        </div>
-        <p style="margin: 0 0 12px 0; font-size: 13px;">Status: <span id="status-kelas-04" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
-        <button onclick="ubahPrivasiKelas(4)" style="background: #e63946; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;">ON/OFF PRIVASI</button>
-        <button onclick="simulasiAiKelas(4)" style="background: #4a4e69; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-left: 3px;">Simulasi AI</button>
-    </div>
-
-</div>
-    
-    
-
-    <!-- STATISTICS -->
-
-    <div class="stats">
-
-        <div class="stat-card">
-            <p>📹 Kamera Aktif</p>
-            <h3>04</h3>
-        </div>
-
-        <div class="stat-card">
-            <p>👤 Orang Terdeteksi</p>
-            <h3 id="people">12</h3>
-        </div>
-
-        <div class="stat-card">
-            <p>⚠️ Peringatan</p>
-            <h3 id="warnings">02</h3>
-        </div>
-
-        <div class="stat-card">
-            <p>🤖 AI Confidence</p>
-            <h3>96%</h3>
-        </div>
-
-    </div>
-
-
-    <!-- MAIN -->
-
-    <div class="main-grid">
-
-        <!-- CAMERA -->
-
-        <div class="card">
-
-            <div class="card-header">
-
-                <h3>📹 CCTV Kamera 01 — Gerbang Sekolah</h3>
-
-                <span class="camera-status">
-                    ● ONLINE
-                </span>
-
+    <!-- TOP HEADER -->
+    <div class="header-bar d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <div class="bg-primary text-white p-2 rounded-3 me-3 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                <i class="bi bi-display" style="font-size: 24px;"></i>
             </div>
-
-
-            <div class="camera">
-
-                <div class="camera-label">
-                    CAMERA 01 • GERBANG
-                </div>
-
-                <div class="live">
-                    ● LIVE
-                </div>
-
-
-                <div class="camera-text">
-
-                    <div class="camera-icon">
-                        📷
-                    </div>
-
-                    <p>SIMULASI LIVE CCTV</p>
-
-                    <small>
-                        AI sedang menganalisis area
-                    </small>
-
-                </div>
-
-
-                <!-- AI DETECTION -->
-
-                <div class="detection-box" id="detectionBox">
-
-                    <div class="detection-label">
-                        PERSON 96%
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="controls">
-
-                <button onclick="startDetection()">
-                    🤖 Jalankan AI
-                </button>
-
-                <button class="danger" onclick="createAlert()">
-                    ⚠️ Simulasi Peringatan
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- ACTIVITY -->
-
-        <div class="card">
-
-            <div class="card-header">
-
-                <h3>📋 Aktivitas AI</h3>
-
-            </div>
-
-
-            <div id="alerts">
-
-                <div class="alert">
-
-                    <strong>✓ Sistem berjalan normal</strong>
-
-                    <small>
-                        AI CCTV sedang memantau area sekolah
-                    </small>
-
-                </div>
-
-            </div>
-
-
-            <div class="card-header">
-
-                <h3>📝 Log Deteksi</h3>
-
-            </div>
-
-
-            <div class="log" id="log">
-
-                <div class="log-item">
-
-                    <div class="log-icon">
-                        👤
-                    </div>
-
-                    <div>
-
-                        <p>Orang terdeteksi</p>
-
-                        <small>
-                            Baru saja
-                        </small>
-
-                    </div>
-
-                </div>
-
-
-                <div class="log-item">
-
-                    <div class="log-icon">
-                        📹
-                    </div>
-
-                    <div>
-
-                        <p>Kamera 01 aktif</p>
-
-                        <small>
-                            Sistem online
-                        </small>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<script>
-
-    let people = 12;
-    let warnings = 2;
-
-
-    function startDetection() {
-
-        const box = document.getElementById("detectionBox");
-
-        box.style.display = "block";
-
-        people++;
-
-        document.getElementById("people").innerText = people;
-
-
-        addLog(
-            "🤖",
-            "AI mendeteksi seseorang",
-            "Confidence 96%"
-        );
-
-
-        showAlert(
-            "✓ Objek berhasil terdeteksi",
-            "AI mendeteksi seseorang pada kamera 01"
-        );
-
-    }
-
-
-    function createAlert() {
-
-        warnings++;
-
-        document.getElementById("warnings").innerText =
-            String(warnings).padStart(2, "0");
-
-
-        addLog(
-            "⚠️",
-            "Peringatan aktivitas",
-            "Aktivitas perlu diperiksa"
-        );
-
-
-        showAlert(
-            "⚠️ Peringatan AI",
-            "Sistem mendeteksi aktivitas yang membutuhkan perhatian",
-            true
-        );
-
-    }
-
-
-    function addLog(icon, text, time) {
-
-        const log = document.getElementById("log");
-
-        const item = document.createElement("div");
-
-        item.className = "log-item";
-
-        item.innerHTML = `
-            <div class="log-icon">${icon}</div>
-
             <div>
-                <p>${text}</p>
-                <small>${time}</small>
+                <h1 class="m-0 h5 fw-bold">SmartClass AI</h1>
+                <p class="m-0 text-secondary" style="font-size: 12px;">Sistem Pemantauan Internal Kelas Cerdas (4 Sudut Pandang)</p>
             </div>
-        `;
-
-        log.prepend(item);
-
-    }
-
-
-    function showAlert(title, description, warning = false) {
-
-        const alerts = document.getElementById("alerts");
-
-        const item = document.createElement("div");
-
-        item.className = "alert";
-
-        if (warning) {
-            item.classList.add("warning");
-        }
-
-        item.innerHTML = `
-            <strong>${title}</strong>
-            <small>${description}</small>
-        `;
-
-        alerts.prepend(item);
-
-    }
-// Fungsi Logika untuk 4 Kamera Baru
-function toggleLive(camNumber) {
-    const statusText = document.getElementById(`status-0${camNumber}`);
-    if (statusText) {
-        if (statusText.innerText === "ONLINE") {
-            statusText.innerText = "LIVE";
-            statusText.style.color = "#e63946";
-            showAlert(`Kamera 0${camNumber} LIVE`, `Streaming kamera 0${camNumber} berhasil dibuka.`, false);
-        } else {
-            statusText.innerText = "ONLINE";
-            statusText.style.color = "#2ec4b6";
-        }
-    }
-}
-
-function simulateAI(camNumber) {
-    const namaKamera = ["Gerbang School", "Gerbang Sekolah", "Koridor", "Lapangan", "Kelas"];
-    addLog("🤖", `Simulasi AI Kamera 0${camNumber}`, `Memeriksa area ${namaKamera[camNumber]}...`);
-    
-    setTimeout(() => {
-        showAlert(`AI Kamera 0${camNumber}`, `Aktivitas di ${namaKamera[camNumber]} terpantau normal.`, false);
-    }, 1500);
-    }
-// Otomatis memunculkan 4 kamera di bagian paling atas dashboard saat web dimuat
-window.addEventListener('DOMContentLoaded', () => {
-    const cameraHTML = `
-    <div class="camera-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; padding: 20px; background: #0f0f1a; border-radius: 10px; margin-bottom: 25px; border: 1px solid #2d2d44;">
-        <div class="camera-card" id="cam-01" style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #2ec4b6;">
-            <h4 style="margin: 0 0 10px 0; font-size: 14px;">Kamera 01 — Gerbang Sekolah</h4>
-            <p style="margin: 0 0 15px 0; font-size: 13px;">Status: <span id="status-01" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
-            <button onclick="toggleLive(1)" style="background: #e63946; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold;">LIVE</button>
-            <button onclick="simulateAI(1)" style="background: #4a4e69; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; margin-left: 5px;">Simulasi AI</button>
         </div>
-        <div class="camera-card" id="cam-02" style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #2ec4b6;">
-            <h4 style="margin: 0 0 10px 0; font-size: 14px;">Kamera 02 — Koridor</h4>
-            <p style="margin: 0 0 15px 0; font-size: 13px;">Status: <span id="status-02" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
-            <button onclick="toggleLive(2)" style="background: #e63946; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold;">LIVE</button>
-            <button onclick="simulateAI(2)" style="background: #4a4e69; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; margin-left: 5px;">Simulasi AI</button>
+        <div class="system-status d-flex align-items-center">
+            <span class="spinner-grow spinner-grow-sm me-2 text-success" role="status"></span>
+            AI SYSTEM AKTIF
         </div>
-        <div class="camera-card" id="cam-03" style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #2ec4b6;">
-            <h4 style="margin: 0 0 10px 0; font-size: 14px;">Kamera 03 — Lapangan</h4>
-            <p style="margin: 0 0 15px 0; font-size: 13px;">Status: <span id="status-03" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
-            <button onclick="toggleLive(3)" style="background: #e63946; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold;">LIVE</button>
-            <button onclick="simulateAI(3)" style="background: #4a4e69; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; margin-left: 5px;">Simulasi AI</button>
+    </div>
+
+    <div class="container px-3">
+        <!-- DASHBOARD MONITORING INFO -->
+        <div class="mb-4">
+            <h2 class="h4 fw-bold m-0">Dashboard Monitoring — XI MIPA 3</h2>
+            <p class="text-secondary small m-0">Pemantauan keamanan dan ketertiban kelas berbasis Artificial Intelligence</p>
         </div>
-        <div class="camera-card" id="cam-04" style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #2ec4b6;">
-            <h4 style="margin: 0 0 10px 0; font-size: 14px;">Kamera 04 — Kelas</h4>
-            <p style="margin: 0 0 15px 0; font-size: 13px;">Status: <span id="status-04" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
-            <button onclick="toggleLive(4)" style="background: #e63946; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold;">LIVE</button>
-            <button onclick="simulateAI(4)" style="background: #4a4e69; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; margin-left: 5px;">Simulasi AI</button>
-        </div>
-    </div>`;
-    
-// Menyisipkan 4 kamera ke dalam kontainer utama halaman web
-const targetContainer = document.querySelector('.container') || document.body;
-targetContainer.insertBefore(document.createRange().createContextualFragment(cameraHTML), targetContainer.firstChild);
-    
-});
-// ==========================================
-// PENGEMBANGAN FITUR KHUSUS: SMARTCLASS AI V2
-// ==========================================
 
-// 1. Fungsi Logika Tombol On/Off Khusus Privasi Kelas
-function ubahPrivasiKelas(nomorCam) {
-    const teksStatus = document.getElementById(`status-kelas-0${nomorCam}`);
-    const layarMonitor = document.getElementById(`layar-kelas-0${nomorCam}`);
-    
-    if (!teksStatus || !layarMonitor) return;
-
-    if (teksStatus.innerText !== "OFF (PRIVASI)") {
-        teksStatus.innerText = "OFF (PRIVASI)";
-        teksStatus.style.color = "#ffb703";
-        layarMonitor.style.background = "#1a0f1a";
-        layarMonitor.innerHTML = `<span style="color: #ff4d4d; font-weight: bold; font-size: 11px;">❌ PRIVACY MODE ACTIVE</span>`;
-        if (typeof showAlert === "function") {
-            showAlert(`Kamera 0${nomorCam} Nonaktif`, `Mode privasi aktif untuk menjaga privasi siswa saat istirahat.`, true);
-        }
-        if (typeof addLog === "function") {
-            addLog("🔒", `Privacy Mode Cam 0${nomorCam}`, `Kamera kelas dinonaktifkan sementara.`);
-        }
-    } else {
-        teksStatus.innerText = "ONLINE";
-        teksStatus.style.color = "#2ec4b6";
-        layarMonitor.style.background = "#0b0b14";
-        layarMonitor.innerHTML = `<span style="color: #555; font-size: 11px;">📺 FEED READY (ONLINE)</span>`;
-        if (typeof showAlert === "function") {
-            showAlert(`Kamera 0${nomorCam} Aktif`, `Kamera kelas kembali online dan siap memantau.`, false);
-        }
-    }
-}
-
-// 2. Fungsi Simulasi Deteksi AI Khusus Kotak Hijau Kelas
-function simulasiAiKelas(nomorCam) {
-    const teksStatus = document.getElementById(`status-kelas-0${nomorCam}`);
-    const layarMonitor = document.getElementById(`layar-kelas-0${nomorCam}`);
-    
-    if (!teksStatus || !layarMonitor) return;
-
-    if (teksStatus.innerText === "OFF (PRIVASI)") {
-        if (typeof showAlert === "function") {
-            showAlert("Gagal Memulai AI", "Kamera dalam Mode Privasi. Aktifkan kamera terlebih dahulu!", true);
-        }
-        return;
-    }
-
-    const namaSektor = ["", "Depan (Deket Guru)", "Samping Kiri", "Samping Kanan", "Belakang Kelas"];
-    
-    teksStatus.innerText = "LIVE (AI SCAN)";
-    teksStatus.style.color = "#e63946";
-    layarMonitor.innerHTML = `<span style="color: #2ec4b6; font-weight: bold; font-size: 11px;">🤖 SCANNING AREA...</span>`;
-
-    if (typeof addLog === "function") {
-        addLog("🤖", `AI Memindai Kamera 0${nomorCam}`, `Memeriksa area ${namaSektor[nomorCam]}...`);
-    }
-
-    setTimeout(() => {
-        let narasiPeringatan = "";
-        let borderWarna = "#2ec4b6";
-        let backgroundSaja = "rgba(46,196,182,0.15)";
-        let teksTag = "";
-
-        switch(nomorCam) {
-            case 1:
-                narasiPeringatan = "Jam Kos: Kelas Terdeteksi Kosong / Guru Tidak Ada";
-                borderWarna = "#ff4d4d";
-                backgroundSaja = "rgba(255,77,77,0.15)";
-                teksTag = "⚠️ NO_TEACHER_DETECTED (98%)";
-                break;
-            case 2:
-                narasiPeringatan = "Siswa Terdeteksi Bermain HP saat Jam Pelajaran";
-                teksTag = "🟩 PHONE_USE_DETECTED (94%)";
-                break;
-            case 3:
-                narasiPeringatan = "Peringatan! Terdeteksi Keributan / Aktivitas Tidak Kondusif";
-                teksTag = "🟩 ROWDY_CROWD_DETECTED (91%)";
-                break;
-            case 4:
-                narasiPeringatan = "Siswa Terdeteksi Keluar Kelas Menuju Kantin saat Jam Pelajaran";
-                teksTag = "🟩 STRAY_STUDENT_KANTIN (96%)";
-                break;
-        }
-
-        layarMonitor.innerHTML = `
-            <div style="position: absolute; top: 5px; left: 5px; background: rgba(0,0,0,0.6); color: #fff; padding: 2px 5px; font-size: 8px; border-radius: 3px; font-family: monospace;">CAM_CLASS_0${nomorCam}</div>
-            <div style="position: absolute; border: 2px solid ${borderWarna}; background: ${backgroundSaja}; top: 25px; left: 20px; width: 80%; height: 70px; border-radius: 4px; padding: 4px; box-sizing: border-box;">
-                <span style="color: ${borderWarna}; font-size: 8px; font-weight: bold; background: #0b0b14; padding: 1px 3px; border-radius: 2px;">${teksTag}</span>
+        <!-- PROTOKOL 4 SUDUT PANDANG KAMERA (SESUAI LAPORAN) -->
+        <div class="row">
+            <!-- Kamera 01 — Depan -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="cctv-card" style="border-left-color: var(--accent-red);" id="card-cam01">
+                    <div class="cctv-title">Kamera 01 — Depan</div>
+                    <div class="feed-placeholder" id="feed-cam01" style="color: var(--accent-red);">
+                        <i class="bi bi-x-lg me-1"></i> PRIVACY MODE ACTIVE
+                    </div>
+                    <p class="small mb-3">Status: <span class="status-offline" id="status-cam01">OFF (PRIVASI)</span></p>
+                    <div class="d-flex flex-column gap-2">
+                        <button class="btn btn-privasi btn-sm" onclick="togglePrivacy()">ON/OFF PRIVASI</button>
+                        <button class="btn btn-simulasi btn-sm" onclick="triggerSimulation('Kamera 01', true)">Simulasi AI</button>
+                    </div>
+                </div>
             </div>
-        `;
-        
-        if (typeof showAlert === "function") {
-            showAlert(`AI Kamera 0${nomorCam}`, narasiPeringatan, nomorCam === 1);
-        }
-        if (typeof addLog === "function") {
-            addLog("🚨", `Hasil Deteksi Cam 0${nomorCam}`, narasiPeringatan);
-        }
-    }, 1500);
-}
 
-</script>
+            <!-- Kamera 02 — Belakang -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="cctv-card">
+                    <div class="cctv-title">Kamera 02 — Belakang</div>
+                    <div class="feed-placeholder text-secondary">
+                        <i class="bi bi-camera-video me-1"></i> FEED READY (ONLINE)
+                    </div>
+                    <p class="small mb-3">Status: <span class="status-online">ONLINE</span></p>
+                    <div class="d-flex flex-column gap-2">
+                        <button class="btn btn-live btn-sm" onclick="addLog('Kamera 02 LIVE', 'Aliran video kamera belakang berhasil dibuka.', 'success')">LIVE</button>
+                        <button class="btn btn-simulasi btn-sm" onclick="triggerSimulation('Kamera 02', false)">Simulasi AI</button>
+                    </div>
+                </div>
+            </div>
 
-</body>
-</html>
+            <!-- Kamera 03 — Samping Kiri -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="cctv-card">
+                    <div class="cctv-title">Kamera 03 — Samping Kiri</div>
+                    <div class="feed-placeholder text-secondary">
+                        <i class="bi bi-camera-video me-1"></i> FEED READY (ONLINE)
+                    </div>
+                    <p class="small mb-3">Status: <span class="status-online">ONLINE</span></p>
+                    <div class="d-flex flex-column gap-2">
+                        <button class="btn btn-live btn-sm" onclick="addLog('Kamera 03 LIVE', 'Aliran video samping kiri berhasil dibuka.', 'success')">LIVE</button>
+                        <button class="btn btn-simulasi btn-sm" onclick="triggerSimulation('Kamera 03', false)">Simulasi AI</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kamera 04 — Samping Kanan -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="cctv-card">
+                    <div class="cctv-title">Kamera 04 — Samping Kanan</div>
+                    <div class="feed-placeholder text-secondary">
+                        <i class="bi bi-camera-video me-1"></i> FEED READY (ONLINE)
+                    </div>
+                    <p class="small mb-3">Status: <span class="status-online">ONLINE</span></p>
+                    <div class="d-flex flex-column gap-2">
+                        <button class="btn btn-live btn-sm" onclick="addLog('Kamera 04 LIVE', 'Aliran video samping kanan berhasil dibuka.', 'success')">LIVE</button>
+                        <button class="btn btn-simulasi btn-sm" onclick="triggerSimulation('Kamera 04', false)">Simulasi AI</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- BAGIAN STATISTIK & LOG REAL-TIME -->
+        <div class="row">
+            <!-- Grafik Persentase Fokus Siswa -->
+            <div class="col-12 col-lg-6 mb-4">
+                <div class="p-3 rounded-3" style="background-color: var(--bg-card); min-height: 340px;">
+                    <h4 class="h6 fw-bold mb-3"><i class="bi bi-graph-up-arrow text-info me-2"></i>Statistik Fokus Siswa XI MIPA 3 (Bab V Evaluasi)</h4>
+                    <canvas id="focusChart" style="max-height: 250px;"></canvas>
+                </div>
+            </div>
+
+            <!-- Log Aktivitas AI Sesuai Gambar Lampiran -->
+            <div class="col-12 col-lg-6 mb-4">
+                <div class="p-3 rounded-3" style="background-color: var(--bg-card); height: 340px; overflow-y: hidden;">
+                    <h4 class="h6 fw-bold mb-3"><i class="bi bi-cpu text-warning me-2"></i>Log Aktivitas & Deteksi AI</h4>
+                    
