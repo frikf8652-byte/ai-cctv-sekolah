@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI CCTV Sekolah</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #0b1220;
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        header {
+            height: 70px;
+            background: #111c30;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            border-bottom: 1px solid #26344d;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: #2563eb;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .logo h1 {
+            font-size: 20px;
+        }
+
+        .logo p {
+            color: #8ea0bd;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #102c25;
+            padding: 10px 15px;
+            border-radius: 20px;
+            color: #4ade80;
+            font-size: 14px;
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+            background: #22c55e;
+            border-radius: 50%;
+        }
+
+        /* CONTENT */
+        .container {
+            padding: 25px;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .title {
+            margin-bottom: 20px;
+        }
+
+        .title h2 {
+            font-size: 26px;
+        }
+
+        .title p {
+            color: #8292ac;
+            margin-top: 5px;
+        }
+
+        /* STATISTICS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: #111c30;
+            border: 1px solid #26344d;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .stat-card p {
+            color: #8ea0bd;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card h3 {
+            font-size: 30px;
+        }
+
+        /* MAIN GRID */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: #111c30;
+            border: 1px solid #26344d;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #26344d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h3 {
+            font-size: 16px;
+        }
+
+        .camera-status {
+            color: #4ade80;
+            font-size: 12px;
+        }
+
+        /* CAMERA */
+        .camera {
+            height: 400px;
+            background:
+                linear-gradient(rgba(15, 23, 42, .6), rgba(15, 23, 42, .6)),
+                repeating-linear-gradient(
+                    0deg,
+                    #1e293b 0px,
+                    #1e293b 2px,
+                    #172033 2px,
+                    #172033 4px
+                );
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .camera-text {
+            text-align: center;
+            color: #71829e;
+        }
+
+        .camera-text .camera-icon {
+            font-size: 55px;
+            margin-bottom: 10px;
+        }
+
+        .camera-label {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0,0,0,.65);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .live {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #dc2626;
+            padding: 7px 12px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* DETECTION BOX */
+        .detection-box {
+            position: absolute;
+            width: 130px;
+            height: 180px;
+            border: 2px solid #22c55e;
+            top: 100px;
+            left: 45%;
+            display: none;
+        }
+
+        .detection-label {
+            position: absolute;
+            top: -25px;
+            left: -2px;
+            background: #22c55e;
+            color: #06130a;
+            padding: 5px 8px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        /* ALERT */
+        .alert {
+            margin: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            background: #172338;
+            border-left: 4px solid #22c55e;
+        }
+
+        .alert.warning {
+            border-left-color: #f59e0b;
+        }
+
+        .alert strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .alert small {
+            color: #8ea0bd;
+        }
+
+        /* LOG */
+        .log {
+            padding: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .log-item {
+            padding: 12px;
+            border-bottom: 1px solid #26344d;
+            display: flex;
+            gap: 10px;
+        }
+
+        .log-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 7px;
+            background: #1e3a5f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .log-item p {
+            font-size: 13px;
+        }
+
+        .log-item small {
+            color: #71829e;
+            font-size: 11px;
+        }
+
+        /* BUTTON */
+        .controls {
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            padding: 11px 16px;
+            border-radius: 7px;
+            cursor: pointer;
+            color: white;
+            background: #2563eb;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        button.danger {
+            background: #dc2626;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 500px) {
+            header {
+                padding: 0 15px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .logo h1 {
+                font-size: 16px;
+            }
+
+            .status {
+                font-size: 11px;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            📹
+        </div>
+
+        <div>
+            <h1>AI CCTV SEKOLAH</h1>
+            <p>Smart School Security System</p>
+        </div>
+
+    </div>
+
+    <div class="status">
+        <span class="status-dot"></span>
+        AI SYSTEM AKTIF
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <div class="title">
+        <h2>Dashboard Monitoring</h2>
+        <p>Pemantauan keamanan sekolah berbasis Artificial Intelligence</p>
+    </div>
+
+
+    <!-- STATISTICS -->
+
+    <div class="stats">
+
+        <div class="stat-card">
+            <p>📹 Kamera Aktif</p>
+            <h3>04</h3>
+        </div>
+
+        <div class="stat-card">
+            <p>👤 Orang Terdeteksi</p>
+            <h3 id="people">12</h3>
+        </div>
+
+        <div class="stat-card">
+            <p>⚠️ Peringatan</p>
+            <h3 id="warnings">02</h3>
+        </div>
+
+        <div class="stat-card">
+            <p>🤖 AI Confidence</p>
+            <h3>96%</h3>
+        </div>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="main-grid">
+
+        <!-- CAMERA -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h3>📹 CCTV Kamera 01 — Gerbang Sekolah</h3>
+
+                <span class="camera-status">
+                    ● ONLINE
+                </span>
+
+            </div>
+
+
+            <div class="camera">
+
+                <div class="camera-label">
+                    CAMERA 01 • GERBANG
+                </div>
+
+                <div class="live">
+                    ● LIVE
+                </div>
+
+
+                <div class="camera-text">
+
+                    <div class="camera-icon">
+                        📷
+                    </div>
+
+                    <p>SIMULASI LIVE CCTV</p>
+
+                    <small>
+                        AI sedang menganalisis area
+                    </small>
+
+                </div>
+
+
+                <!-- AI DETECTION -->
+
+                <div class="detection-box" id="detectionBox">
+
+                    <div class="detection-label">
+                        PERSON 96%
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="controls">
+
+                <button onclick="startDetection()">
+                    🤖 Jalankan AI
+                </button>
+
+                <button class="danger" onclick="createAlert()">
+                    ⚠️ Simulasi Peringatan
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ACTIVITY -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h3>📋 Aktivitas AI</h3>
+
+            </div>
+
+
+            <div id="alerts">
+
+                <div class="alert">
+
+                    <strong>✓ Sistem berjalan normal</strong>
+
+                    <small>
+                        AI CCTV sedang memantau area sekolah
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-header">
+
+                <h3>📝 Log Deteksi</h3>
+
+            </div>
+
+
+            <div class="log" id="log">
+
+                <div class="log-item">
+
+                    <div class="log-icon">
+                        👤
+                    </div>
+
+                    <div>
+
+                        <p>Orang terdeteksi</p>
+
+                        <small>
+                            Baru saja
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="log-item">
+
+                    <div class="log-icon">
+                        📹
+                    </div>
+
+                    <div>
+
+                        <p>Kamera 01 aktif</p>
+
+                        <small>
+                            Sistem online
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    let people = 12;
+    let warnings = 2;
+
+
+    function startDetection() {
+
+        const box = document.getElementById("detectionBox");
+
+        box.style.display = "block";
+
+        people++;
+
+        document.getElementById("people").innerText = people;
+
+
+        addLog(
+            "🤖",
+            "AI mendeteksi seseorang",
+            "Confidence 96%"
+        );
+
+
+        showAlert(
+            "✓ Objek berhasil terdeteksi",
+            "AI mendeteksi seseorang pada kamera 01"
+        );
+
+    }
+
+
+    function createAlert() {
+
+        warnings++;
+
+        document.getElementById("warnings").innerText =
+            String(warnings).padStart(2, "0");
+
+
+        addLog(
+            "⚠️",
+            "Peringatan aktivitas",
+            "Aktivitas perlu diperiksa"
+        );
+
+
+        showAlert(
+            "⚠️ Peringatan AI",
+            "Sistem mendeteksi aktivitas yang membutuhkan perhatian",
+            true
+        );
+
+    }
+
+
+    function addLog(icon, text, time) {
+
+        const log = document.getElementById("log");
+
+        const item = document.createElement("div");
+
+        item.className = "log-item";
+
+        item.innerHTML = `
+            <div class="log-icon">${icon}</div>
+
+            <div>
+                <p>${text}</p>
+                <small>${time}</small>
+            </div>
+        `;
+
+        log.prepend(item);
+
+    }
+
+
+    function showAlert(title, description, warning = false) {
+
+        const alerts = document.getElementById("alerts");
+
+        const item = document.createElement("div");
+
+        item.className = "alert";
+
+        if (warning) {
+            item.classList.add("warning");
+        }
+
+        item.innerHTML = `
+            <strong>${title}</strong>
+            <small>${description}</small>
+        `;
+
+        alerts.prepend(item);
+
+    }
+
+</script>
+
+</body>
+</html>
