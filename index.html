@@ -1,374 +1,846 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI CCTV Kelas</title>
 
-    <title>AI CCTV Sekolah</title>
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#050b15;
+    color:white;
+}
 
-        body {
-            background: #0b1220;
-            color: white;
-            min-height: 100vh;
-        }
+/* ================= LOGIN ================= */
 
-        /* HEADER */
-        header {
-            height: 70px;
-            background: #111c30;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 30px;
-            border-bottom: 1px solid #26344d;
-        }
+#loginPage{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:
+        radial-gradient(circle at top,#17365c,#050b15 55%);
+}
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+.login-box{
+    width:420px;
+    max-width:100%;
+    background:#0d192b;
+    border:1px solid #243957;
+    border-radius:22px;
+    padding:30px;
+    box-shadow:0 30px 80px #000;
+}
 
-        .logo-icon {
-            width: 42px;
-            height: 42px;
-            background: #2563eb;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-        }
+.logo{
+    width:65px;
+    height:65px;
+    margin:auto;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    background:linear-gradient(135deg,#2563eb,#06b6d4);
+}
 
-        .logo h1 {
-            font-size: 20px;
-        }
+.login-box h1{
+    text-align:center;
+    margin-top:15px;
+}
 
-        .logo p {
-            color: #8ea0bd;
-            font-size: 12px;
-            margin-top: 3px;
-        }
+.login-sub{
+    text-align:center;
+    color:#91a5c3;
+    font-size:13px;
+    margin:8px 0 25px;
+}
 
-        .status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #102c25;
-            padding: 10px 15px;
-            border-radius: 20px;
-            color: #4ade80;
-            font-size: 14px;
-        }
+.roles{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
 
-        .status-dot {
-            width: 9px;
-            height: 9px;
-            background: #22c55e;
-            border-radius: 50%;
-        }
+.role{
+    padding:15px;
+    background:#07111f;
+    border:1px solid #243957;
+    border-radius:12px;
+    text-align:center;
+    cursor:pointer;
+    color:#91a5c3;
+}
 
-        /* CONTENT */
-        .container {
-            padding: 25px;
-            max-width: 1400px;
-            margin: auto;
-        }
+.role.active{
+    border-color:#3182ff;
+    background:#102d55;
+    color:white;
+}
 
-        .title {
-            margin-bottom: 20px;
-        }
+.role.guru.active{
+    border-color:#ef4444;
+    background:#35151b;
+}
 
-        .title h2 {
-            font-size: 26px;
-        }
+.role-icon{
+    font-size:28px;
+    margin-bottom:5px;
+}
 
-        .title p {
-            color: #8292ac;
-            margin-top: 5px;
-        }
+.field{
+    margin-top:15px;
+}
 
-        /* STATISTICS */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
-        }
+.field label{
+    display:block;
+    font-size:12px;
+    color:#91a5c3;
+    margin-bottom:6px;
+}
 
-        .stat-card {
-            background: #111c30;
-            border: 1px solid #26344d;
-            border-radius: 12px;
-            padding: 20px;
-        }
+.field input{
+    width:100%;
+    padding:13px;
+    border-radius:10px;
+    border:1px solid #243957;
+    background:#07111f;
+    color:white;
+    outline:none;
+}
 
-        .stat-card p {
-            color: #8ea0bd;
-            font-size: 13px;
-            margin-bottom: 10px;
-        }
+.login-button{
+    width:100%;
+    margin-top:20px;
+    padding:14px;
+    border:none;
+    border-radius:11px;
+    background:linear-gradient(135deg,#2563eb,#0891b2);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
 
-        .stat-card h3 {
-            font-size: 30px;
-        }
+.login-button:hover{
+    opacity:.9;
+}
 
-        /* MAIN GRID */
-        .main-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-        }
+.error{
+    display:none;
+    color:#ff737d;
+    font-size:12px;
+    margin-top:10px;
+}
 
-        .card {
-            background: #111c30;
-            border: 1px solid #26344d;
-            border-radius: 12px;
-            overflow: hidden;
-        }
+.demo{
+    margin-top:15px;
+    padding:12px;
+    background:#07111f;
+    border:1px solid #243957;
+    border-radius:10px;
+    color:#91a5c3;
+    font-size:11px;
+    line-height:1.7;
+}
 
-        .card-header {
-            padding: 15px 20px;
-            border-bottom: 1px solid #26344d;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+/* ================= DASHBOARD ================= */
 
-        .card-header h3 {
-            font-size: 16px;
-        }
+#app{
+    display:none;
+}
 
-        .camera-status {
-            color: #4ade80;
-            font-size: 12px;
-        }
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:245px;
+    background:#07111f;
+    border-right:1px solid #243957;
+    padding:20px 15px;
+}
 
-        /* CAMERA */
-        .camera {
-            height: 400px;
-            background:
-                linear-gradient(rgba(15, 23, 42, .6), rgba(15, 23, 42, .6)),
-                repeating-linear-gradient(
-                    0deg,
-                    #1e293b 0px,
-                    #1e293b 2px,
-                    #172033 2px,
-                    #172033 4px
-                );
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:30px;
+}
 
-        .camera-text {
-            text-align: center;
-            color: #71829e;
-        }
+.brand-logo{
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    background:linear-gradient(135deg,#2563eb,#06b6d4);
+}
 
-        .camera-text .camera-icon {
-            font-size: 55px;
-            margin-bottom: 10px;
-        }
+.brand small{
+    display:block;
+    color:#91a5c3;
+    margin-top:3px;
+}
 
-        .camera-label {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: rgba(0,0,0,.65);
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-        }
+.nav button{
+    width:100%;
+    padding:12px;
+    margin:3px 0;
+    border:none;
+    border-radius:10px;
+    background:transparent;
+    color:#91a5c3;
+    text-align:left;
+    cursor:pointer;
+}
 
-        .live {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #dc2626;
-            padding: 7px 12px;
-            border-radius: 5px;
-            font-size: 12px;
-            font-weight: bold;
-        }
+.nav button:hover{
+    background:#142741;
+    color:white;
+}
 
-        /* DETECTION BOX */
-        .detection-box {
-            position: absolute;
-            width: 130px;
-            height: 180px;
-            border: 2px solid #22c55e;
-            top: 100px;
-            left: 45%;
-            display: none;
-        }
+.user-box{
+    position:absolute;
+    bottom:20px;
+    left:15px;
+    right:15px;
+    padding:13px;
+    background:#0b1728;
+    border:1px solid #243957;
+    border-radius:12px;
+}
 
-        .detection-label {
-            position: absolute;
-            top: -25px;
-            left: -2px;
-            background: #22c55e;
-            color: #06130a;
-            padding: 5px 8px;
-            font-size: 11px;
-            font-weight: bold;
-        }
+.user-role{
+    color:#91a5c3;
+    font-size:11px;
+    margin-top:4px;
+}
 
-        /* ALERT */
-        .alert {
-            margin: 15px;
-            padding: 15px;
-            border-radius: 8px;
-            background: #172338;
-            border-left: 4px solid #22c55e;
-        }
+.logout{
+    width:100%;
+    margin-top:10px;
+    padding:9px;
+    background:#3a1820;
+    border:1px solid #632631;
+    border-radius:8px;
+    color:#ff8790;
+    cursor:pointer;
+}
 
-        .alert.warning {
-            border-left-color: #f59e0b;
-        }
+main{
+    margin-left:245px;
+    padding:25px;
+}
 
-        .alert strong {
-            display: block;
-            margin-bottom: 5px;
-        }
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
 
-        .alert small {
-            color: #8ea0bd;
-        }
+.top h1{
+    font-size:29px;
+}
 
-        /* LOG */
-        .log {
-            padding: 15px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
+.subtitle{
+    color:#91a5c3;
+    margin-top:5px;
+}
 
-        .log-item {
-            padding: 12px;
-            border-bottom: 1px solid #26344d;
-            display: flex;
-            gap: 10px;
-        }
+.system-status{
+    padding:10px 14px;
+    border-radius:30px;
+    background:#0b3022;
+    border:1px solid #1e704a;
+    color:#58e89a;
+    font-size:12px;
+}
 
-        .log-icon {
-            width: 30px;
-            height: 30px;
-            border-radius: 7px;
-            background: #1e3a5f;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+.dot{
+    width:8px;
+    height:8px;
+    display:inline-block;
+    border-radius:50%;
+    background:#22c55e;
+    box-shadow:0 0 10px #22c55e;
+}
 
-        .log-item p {
-            font-size: 13px;
-        }
+/* ACCESS MURID */
 
-        .log-item small {
-            color: #71829e;
-            font-size: 11px;
-        }
+#studentAccess{
+    display:none;
+    padding:15px;
+    margin-bottom:15px;
+    border-radius:12px;
+    background:#0d2038;
+    border:1px solid #31547d;
+}
 
-        /* BUTTON */
-        .controls {
-            padding: 15px;
-            display: flex;
-            gap: 10px;
-        }
+.timer{
+    color:#60a5fa;
+    font-size:22px;
+    margin-left:10px;
+}
 
-        button {
-            border: none;
-            padding: 11px 16px;
-            border-radius: 7px;
-            cursor: pointer;
-            color: white;
-            background: #2563eb;
-            font-weight: bold;
-        }
+/* STATS */
 
-        button:hover {
-            background: #1d4ed8;
-        }
+.stats{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:13px;
+    margin-bottom:22px;
+}
 
-        button.danger {
-            background: #dc2626;
-        }
+.stat{
+    background:linear-gradient(145deg,#0e1d31,#091525);
+    border:1px solid #243957;
+    border-radius:15px;
+    padding:17px;
+}
 
-        /* RESPONSIVE */
-        @media (max-width: 900px) {
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
+.stat-label{
+    color:#91a5c3;
+    font-size:12px;
+}
 
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+.stat-number{
+    font-size:28px;
+    font-weight:bold;
+    margin-top:9px;
+}
 
-        @media (max-width: 500px) {
-            header {
-                padding: 0 15px;
-            }
+.teacher-color{
+    color:#ff626b;
+}
 
-            .container {
-                padding: 15px;
-            }
+.student-color{
+    color:#4c94ff;
+}
 
-            .stats {
-                grid-template-columns: 1fr;
-            }
+/* CAMERA */
 
-            .logo h1 {
-                font-size: 16px;
-            }
+.camera-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+}
 
-            .status {
-                font-size: 11px;
-                padding: 8px;
-            }
-        }
-    </style>
+.camera-buttons{
+    display:flex;
+    gap:8px;
+}
+
+.button{
+    padding:9px 13px;
+    border-radius:9px;
+    border:1px solid #243957;
+    background:#152740;
+    color:white;
+    cursor:pointer;
+}
+
+.button.blue{
+    background:#2563eb;
+}
+
+.button.red{
+    background:#b91c1c;
+}
+
+.cameras{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.camera{
+    background:#0d192b;
+    border:1px solid #243957;
+    border-radius:16px;
+    overflow:hidden;
+}
+
+.camera-header{
+    display:flex;
+    justify-content:space-between;
+    padding:13px 15px;
+    border-bottom:1px solid #243957;
+}
+
+.camera-name{
+    font-size:13px;
+    font-weight:bold;
+}
+
+.camera-place{
+    color:#91a5c3;
+    font-size:10px;
+    margin-top:4px;
+}
+
+.online{
+    color:#52e695;
+    font-size:11px;
+}
+
+.viewport{
+    position:relative;
+    aspect-ratio:16/10;
+    background:#050a12;
+    overflow:hidden;
+}
+
+.viewport canvas{
+    width:100%;
+    height:100%;
+    image-rendering:pixelated;
+}
+
+.overlay{
+    position:absolute;
+    top:10px;
+    left:10px;
+    right:10px;
+    display:flex;
+    justify-content:space-between;
+}
+
+.tag{
+    background:#000b;
+    padding:6px 8px;
+    border-radius:6px;
+    font-size:9px;
+}
+
+.live{
+    background:#d82732;
+    padding:6px 8px;
+    border-radius:6px;
+    font-size:9px;
+    font-weight:bold;
+}
+
+.ai-box{
+    position:absolute;
+    border:2px solid;
+    padding:4px;
+    font-size:9px;
+    font-weight:bold;
+    display:none;
+}
+
+.ai-teacher{
+    border-color:#ef4444;
+    color:#ff777f;
+    background:#ef444418;
+}
+
+.ai-student{
+    border-color:#3182ff;
+    color:#62a0ff;
+    background:#3182ff18;
+}
+
+/* LOCKED */
+
+.locked{
+    width:100%;
+    height:100%;
+    min-height:180px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    background:#080d16;
+    color:#ff727b;
+}
+
+.locked-icon{
+    font-size:40px;
+    margin-bottom:8px;
+}
+
+.locked small{
+    color:#91a5c3;
+    margin-top:6px;
+}
+
+/* LOWER */
+
+.lower{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:15px;
+    margin-top:18px;
+}
+
+.panel{
+    background:#0d192b;
+    border:1px solid #243957;
+    border-radius:16px;
+    overflow:hidden;
+}
+
+.panel-title{
+    padding:15px;
+    border-bottom:1px solid #243957;
+    font-weight:bold;
+}
+
+.log{
+    display:flex;
+    gap:10px;
+    padding:12px 15px;
+    border-bottom:1px solid #1a2a42;
+}
+
+.log-icon{
+    width:32px;
+    height:32px;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#172b47;
+}
+
+.log small{
+    display:block;
+    color:#91a5c3;
+    font-size:10px;
+    margin-top:4px;
+}
+
+.playback{
+    padding:15px;
+}
+
+.playback input{
+    width:100%;
+    margin-top:10px;
+}
+
+.video-box{
+    display:none;
+    margin-top:12px;
+}
+
+.video-box video{
+    width:100%;
+}
+
+.no-access{
+    padding:14px;
+    background:#31151b;
+    border:1px solid #64232d;
+    border-radius:10px;
+    color:#ff7b83;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .stats{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .lower{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .brand-text,
+    .nav span,
+    .user-box{
+        display:none;
+    }
+
+    main{
+        margin-left:70px;
+        padding:15px;
+    }
+
+    .cameras{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:550px){
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .top{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+}
+</style>
 </head>
 
 <body>
 
-<header>
+<!-- =====================================================
+     LOGIN
+===================================================== -->
 
-    <div class="logo">
+<section id="loginPage">
 
-        <div class="logo-icon">
+<div class="login-box">
+
+    <div class="logo">📹</div>
+
+    <h1>AI CCTV Kelas</h1>
+
+    <div class="login-sub">
+        Smart Classroom Monitoring System
+    </div>
+
+    <div class="roles">
+
+        <div id="guruRole"
+             class="role guru active"
+             onclick="selectRole('guru')">
+
+            <div class="role-icon">👨‍🏫</div>
+            <b>Guru</b>
+
+        </div>
+
+        <div id="muridRole"
+             class="role"
+             onclick="selectRole('murid')">
+
+            <div class="role-icon">👨‍🎓</div>
+            <b>Murid</b>
+
+        </div>
+
+    </div>
+
+    <div class="field">
+
+        <label>Email</label>
+
+        <input
+            id="email"
+            type="email"
+            placeholder="Masukkan email">
+
+    </div>
+
+    <div class="field">
+
+        <label>Password</label>
+
+        <input
+            id="password"
+            type="password"
+            placeholder="Masukkan password">
+
+    </div>
+
+    <button class="login-button"
+            onclick="login()">
+
+        MASUK KE DASHBOARD
+
+    </button>
+
+    <div id="loginError" class="error">
+
+        Email atau password salah.
+
+    </div>
+
+    <div class="demo">
+
+        <b>Akun Prototype</b><br>
+
+        👨‍🏫 Guru:
+        guru@sekolah.demo / 1234
+
+        <br>
+
+        👨‍🎓 Murid:
+        murid@sekolah.demo / 1111
+
+        <br><br>
+
+        ⚠️ Ini hanya login simulasi prototype.
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<div id="app">
+
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <div class="brand-logo">
             📹
         </div>
 
-        <div>
-            <h1>AI CCTV SEKOLAH</h1>
-            <p>Smart School Security System</p>
+        <div class="brand-text">
+
+            <b>AI CCTV KELAS</b>
+
+            <small>
+                Smart Classroom
+            </small>
+
         </div>
 
     </div>
 
-    <div class="status">
-        <span class="status-dot"></span>
-        AI SYSTEM AKTIF
+
+    <div class="nav">
+
+        <button onclick="scrollToSection('dashboard')">
+            📊 <span>Dashboard</span>
+        </button>
+
+        <button onclick="scrollToSection('camerasSection')">
+            📹 <span>Kamera Kelas</span>
+        </button>
+
+        <button onclick="scrollToSection('activitySection')">
+            ⚠️ <span>Aktivitas AI</span>
+        </button>
+
+        <button id="playbackMenu"
+                onclick="scrollToSection('playbackSection')">
+
+            🎞️ <span>Video Playback</span>
+
+        </button>
+
     </div>
 
-</header>
+
+    <div class="user-box">
+
+        <b id="userName">
+            Guru
+        </b>
+
+        <div id="userRole"
+             class="user-role">
+
+            Akses Guru
+
+        </div>
+
+        <button class="logout"
+                onclick="logout()">
+
+            Keluar
+
+        </button>
+
+    </div>
+
+</aside>
 
 
-<div class="container">
+<main>
 
-    <div class="title">
-        <h2>Dashboard Monitoring</h2>
-        <p>Pemantauan keamanan sekolah berbasis Artificial Intelligence</p>
+<!-- DASHBOARD -->
+
+<section id="dashboard">
+
+    <div class="top">
+
+        <div>
+
+            <h1>
+                Dashboard Monitoring
+            </h1>
+
+            <div class="subtitle">
+                Pemantauan aktivitas kelas berbasis AI
+            </div>
+
+        </div>
+
+        <div class="system-status">
+
+            <span class="dot"></span>
+
+            AI SYSTEM ACTIVE
+
+        </div>
+
+    </div>
+
+
+    <!-- TIMER MURID -->
+
+    <div id="studentAccess">
+
+        👨‍🎓
+
+        <b>
+            Akses Murid
+        </b>
+
+        — CCTV 01 dekat guru saja.
+
+        <span>
+            Sisa waktu:
+        </span>
+
+        <b id="timer"
+           class="timer">
+
+            05:00
+
+        </b>
+
+        <div style="
+            color:#91a5c3;
+            font-size:11px;
+            margin-top:5px;
+        ">
+
+            Setelah waktu habis,
+            CCTV akan otomatis terkunci.
+
+        </div>
+
     </div>
 
 
@@ -376,283 +848,1379 @@
 
     <div class="stats">
 
-        <div class="stat-card">
-            <p>📹 Kamera Aktif</p>
-            <h3>04</h3>
+        <div class="stat">
+
+            <div class="stat-label">
+                📹 Kamera Aktif
+            </div>
+
+            <div class="stat-number">
+                04
+            </div>
+
         </div>
 
-        <div class="stat-card">
-            <p>👤 Orang Terdeteksi</p>
-            <h3 id="people">12</h3>
+
+        <div class="stat">
+
+            <div class="stat-label">
+                👨‍🏫 Guru
+            </div>
+
+            <div id="teacherCount"
+                 class="stat-number teacher-color">
+
+                01
+
+            </div>
+
         </div>
 
-        <div class="stat-card">
-            <p>⚠️ Peringatan</p>
-            <h3 id="warnings">02</h3>
+
+        <div class="stat">
+
+            <div class="stat-label">
+                👨‍🎓 Murid
+            </div>
+
+            <div id="studentCount"
+                 class="stat-number student-color">
+
+                12
+
+            </div>
+
         </div>
 
-        <div class="stat-card">
-            <p>🤖 AI Confidence</p>
-            <h3>96%</h3>
+
+        <div class="stat">
+
+            <div class="stat-label">
+                ⚠️ Peringatan
+            </div>
+
+            <div id="warningCount"
+                 class="stat-number">
+
+                02
+
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                🤖 Confidence
+            </div>
+
+            <div id="confidence"
+                 class="stat-number">
+
+                96%
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CCTV
+===================================================== -->
+
+<section id="camerasSection">
+
+    <div class="camera-title">
+
+        <h2>
+            📹 CCTV Kelas
+        </h2>
+
+        <div class="camera-buttons">
+
+            <button class="button blue"
+                    onclick="runAI()">
+
+                🤖 Jalankan AI
+
+            </button>
+
+            <button class="button red"
+                    onclick="createWarning()">
+
+                ⚠️ Simulasi Peringatan
+
+            </button>
+
         </div>
 
     </div>
 
 
-    <!-- MAIN -->
+    <div class="cameras">
 
-    <div class="main-grid">
 
-        <!-- CAMERA -->
+        <!-- CAMERA 1 -->
 
-        <div class="card">
+        <article class="camera">
 
-            <div class="card-header">
+            <div class="camera-header">
 
-                <h3>📹 CCTV Kamera 01 — Gerbang Sekolah</h3>
+                <div>
 
-                <span class="camera-status">
+                    <div class="camera-name">
+                        Kamera 01 — Depan / Dekat Guru
+                    </div>
+
+                    <div class="camera-place">
+                        Kamera utama kelas
+                    </div>
+
+                </div>
+
+                <div class="online">
                     ● ONLINE
-                </span>
+                </div>
 
             </div>
 
 
-            <div class="camera">
+            <div id="cam1Box"
+                 class="viewport">
 
-                <div class="camera-label">
-                    CAMERA 01 • GERBANG
+                <canvas id="cam1"></canvas>
+
+                <div class="overlay">
+
+                    <span class="tag">
+                        CAM 01 • DEPAN
+                    </span>
+
+                    <span class="live">
+                        ● LIVE
+                    </span>
+
                 </div>
 
-                <div class="live">
-                    ● LIVE
+
+                <div id="teacherDetect"
+                     class="ai-box ai-teacher"
+                     style="
+                        left:43%;
+                        top:34%;
+                        width:16%;
+                        height:35%;
+                     ">
+
+                    👨‍🏫 GURU 97%
+
                 </div>
 
 
-                <div class="camera-text">
+                <div id="studentDetect"
+                     class="ai-box ai-student"
+                     style="
+                        left:62%;
+                        top:47%;
+                        width:14%;
+                        height:31%;
+                     ">
 
-                    <div class="camera-icon">
-                        📷
+                    👨‍🎓 MURID 94%
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- CAMERA 2 -->
+
+        <article class="camera">
+
+            <div class="camera-header">
+
+                <div>
+
+                    <div class="camera-name">
+                        Kamera 02 — Samping Kiri
                     </div>
 
-                    <p>SIMULASI LIVE CCTV</p>
-
-                    <small>
-                        AI sedang menganalisis area
-                    </small>
-
-                </div>
-
-
-                <!-- AI DETECTION -->
-
-                <div class="detection-box" id="detectionBox">
-
-                    <div class="detection-label">
-                        PERSON 96%
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="controls">
-
-                <button onclick="startDetection()">
-                    🤖 Jalankan AI
-                </button>
-
-                <button class="danger" onclick="createAlert()">
-                    ⚠️ Simulasi Peringatan
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- ACTIVITY -->
-
-        <div class="card">
-
-            <div class="card-header">
-
-                <h3>📋 Aktivitas AI</h3>
-
-            </div>
-
-
-            <div id="alerts">
-
-                <div class="alert">
-
-                    <strong>✓ Sistem berjalan normal</strong>
-
-                    <small>
-                        AI CCTV sedang memantau area sekolah
-                    </small>
-
-                </div>
-
-            </div>
-
-
-            <div class="card-header">
-
-                <h3>📝 Log Deteksi</h3>
-
-            </div>
-
-
-            <div class="log" id="log">
-
-                <div class="log-item">
-
-                    <div class="log-icon">
-                        👤
-                    </div>
-
-                    <div>
-
-                        <p>Orang terdeteksi</p>
-
-                        <small>
-                            Baru saja
-                        </small>
-
+                    <div class="camera-place">
+                        Sisi kiri kelas
                     </div>
 
                 </div>
 
+                <div class="online">
+                    ● ONLINE
+                </div>
 
-                <div class="log-item">
+            </div>
 
-                    <div class="log-icon">
-                        📹
-                    </div>
 
-                    <div>
+            <div id="cam2Box"
+                 class="viewport">
 
-                        <p>Kamera 01 aktif</p>
+                <canvas id="cam2"></canvas>
 
-                        <small>
-                            Sistem online
-                        </small>
+                <div class="overlay">
 
-                    </div>
+                    <span class="tag">
+                        CAM 02 • KIRI
+                    </span>
+
+                    <span class="live">
+                        ● LIVE
+                    </span>
+
+                </div>
+
+
+                <div id="phoneDetect"
+                     class="ai-box ai-student"
+                     style="
+                        left:50%;
+                        top:38%;
+                        width:18%;
+                        height:34%;
+                     ">
+
+                    📱 HP 91%
 
                 </div>
 
             </div>
 
-        </div>
+        </article>
+
+
+        <!-- CAMERA 3 -->
+
+        <article class="camera">
+
+            <div class="camera-header">
+
+                <div>
+
+                    <div class="camera-name">
+                        Kamera 03 — Samping Kanan
+                    </div>
+
+                    <div class="camera-place">
+                        Sisi kanan kelas
+                    </div>
+
+                </div>
+
+                <div class="online">
+                    ● ONLINE
+                </div>
+
+            </div>
+
+
+            <div id="cam3Box"
+                 class="viewport">
+
+                <canvas id="cam3"></canvas>
+
+                <div class="overlay">
+
+                    <span class="tag">
+                        CAM 03 • KANAN
+                    </span>
+
+                    <span class="live">
+                        ● LIVE
+                    </span>
+
+                </div>
+
+
+                <div id="talkDetect"
+                     class="ai-box ai-student"
+                     style="
+                        left:30%;
+                        top:40%;
+                        width:20%;
+                        height:34%;
+                     ">
+
+                    🗣️ NGOBROL 89%
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- CAMERA 4 -->
+
+        <article class="camera">
+
+            <div class="camera-header">
+
+                <div>
+
+                    <div class="camera-name">
+                        Kamera 04 — Belakang
+                    </div>
+
+                    <div class="camera-place">
+                        Bagian belakang kelas
+                    </div>
+
+                </div>
+
+                <div class="online">
+                    ● ONLINE
+                </div>
+
+            </div>
+
+
+            <div id="cam4Box"
+                 class="viewport">
+
+                <canvas id="cam4"></canvas>
+
+                <div class="overlay">
+
+                    <span class="tag">
+                        CAM 04 • BELAKANG
+                    </span>
+
+                    <span class="live">
+                        ● LIVE
+                    </span>
+
+                </div>
+
+
+                <div id="moveDetect"
+                     class="ai-box ai-student"
+                     style="
+                        left:58%;
+                        top:40%;
+                        width:17%;
+                        height:35%;
+                     ">
+
+                    🚶 GERAK 93%
+
+                </div>
+
+            </div>
+
+        </article>
 
     </div>
+
+</section>
+
+
+<!-- ==============================================
+AKTIVITAS + PLAYBACK
+===================================================== -->
+
+<div class="lower">
+
+    <!-- ================= AKTIVITAS AI ================= -->
+
+    <section id="activitySection" class="panel">
+
+        <div class="panel-title">
+            🤖 Aktivitas AI
+        </div>
+
+        <div id="logs">
+
+            <div class="log">
+
+                <div class="log-icon">
+                    🤖
+                </div>
+
+                <div>
+
+                    <b>
+                        Sistem AI aktif
+                    </b>
+
+                    <small>
+                        Sistem monitoring kelas berjalan
+                    </small>
+
+                </div>
+
+            </div>
+
+            <div class="log">
+
+                <div class="log-icon">
+                    📹
+                </div>
+
+                <div>
+
+                    <b>
+                        4 Kamera Online
+                    </b>
+
+                    <small>
+                        Depan, samping kiri, samping kanan
+                        dan belakang
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= PLAYBACK ================= -->
+
+    <section id="playbackSection" class="panel">
+
+        <div class="panel-title">
+
+            🎞️ Video Playback
+
+        </div>
+
+
+        <!-- PLAYBACK GURU -->
+
+        <div id="teacherPlayback" class="playback">
+
+            <p style="
+                color:#91a5c3;
+                font-size:12px;
+                margin-bottom:12px;
+            ">
+
+                Guru dapat melihat dan memutar
+                video rekaman CCTV.in 
+
+            </p>
+
+
+            <label style="
+                color:#91a5c3;
+                font-size:11px;
+            ">
+
+                Pilih video CCTV:
+
+            </label>
+
+
+            <input
+                id="videoFile"
+                type="file"
+                accept="video/*"
+                style="
+                    width:100%;
+                    margin-top:8px;
+                    color:#91a5c3;
+                "
+            >
+
+
+            <div
+                id="videoBox"
+                class="video-box"
+            >
+
+                <video
+                    id="video"
+                    controls
+                >
+                </video>
+
+            </div>
+
+
+            <div style="
+                margin-top:15px;
+                padding:12px;
+                background:#07111f;
+                border:1px solid #243957;
+                border-radius:10px;
+                font-size:11px;
+                color:#91a5c3;
+            ">
+
+                📹 <b style="color:white;">
+                    Playback CCTV
+                </b>
+
+                <br><br>
+
+                Kamera yang tersedia:
+
+                <br>
+
+                🔴 Kamera 01 — Depan / Guru
+
+                <br>
+
+                🔵 Kamera 02 — Samping Kiri
+
+                <br>
+
+                🔵 Kamera 03 — Samping Kanan
+
+                <br>
+
+                🔵 Kamera 04 — Belakang
+
+            </div>
+
+        </div>
+
+
+        <!-- PLAYBACK MURID -->
+
+        <div
+            id="studentPlayback"
+            class="playback"
+            style="display:none"
+        >
+
+            <div class="no-access">
+
+                🔒
+
+                <b>
+                    Playback Tidak Tersedia
+                </b>
+
+                <br><br>
+
+                Fitur Video Playback hanya dapat
+                digunakan oleh akun Guru.
+
+            </div>
+
+        </div>
+
+    </section>
 
 </div>
 
 
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<div style="
+    text-align:center;
+    color:#637995;
+    font-size:10px;
+    padding:25px;
+">
+
+    AI CCTV Kelas
+
+    <br>
+
+    Smart Classroom Monitoring System
+
+    <br><br>
+
+    Prototype AI CCTV —
+    Sistem deteksi masih berupa simulasi.
+
+</div>
+
+
+</main>
+
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
 <script>
 
-    let people = 12;
-    let warnings = 2;
+/* =====================================================
+   KONFIGURASI AKUN
+===================================================== */
+
+const CONFIG = {
+
+    guru: {
+
+        email: "guru@sekolah.demo",
+
+        password: "1234"
+
+    },
+
+    murid: {
+
+        email: "murid@sekolah.demo",
+
+        password: "1111"
+
+    },
+
+    /*
+
+       300 detik = 5 menit
+
+       Kalau ingin 10 menit:
+       600
+
+       Kalau ingin 15 menit:
+       900
+
+    */
+
+    muridAccessSeconds: 300
+
+};
 
 
-    function startDetection() {
+/* =====================================================
+   VARIABLE
+===================================================== */
 
-        const box = document.getElementById("detectionBox");
+let selectedRole = "guru";
 
-        box.style.display = "block";
+let currentUser = null;
 
-        people++;
+let timerInterval = null;
 
-        document.getElementById("people").innerText = people;
+let studentSeconds =
+    CONFIG.muridAccessSeconds;
+
+let teacherCount = 1;
+
+let studentCount = 12;
+
+let warningCount = 2;
 
 
-        addLog(
-            "🤖",
-            "AI mendeteksi seseorang",
-            "Confidence 96%"
+/* =====================================================
+   PILIH ROLE
+===================================================== */
+
+function selectRole(role) {
+
+    selectedRole = role;
+
+
+    document
+        .getElementById("guruRole")
+        .classList
+        .toggle(
+            "active",
+            role === "guru"
         );
 
 
-        showAlert(
-            "✓ Objek berhasil terdeteksi",
-            "AI mendeteksi seseorang pada kamera 01"
-        );
-
-    }
-
-
-    function createAlert() {
-
-        warnings++;
-
-        document.getElementById("warnings").innerText =
-            String(warnings).padStart(2, "0");
-
-
-        addLog(
-            "⚠️",
-            "Peringatan aktivitas",
-            "Aktivitas perlu diperiksa"
+    document
+        .getElementById("muridRole")
+        .classList
+        .toggle(
+            "active",
+            role === "murid"
         );
 
 
-        showAlert(
-            "⚠️ Peringatan AI",
-            "Sistem mendeteksi aktivitas yang membutuhkan perhatian",
-            true
-        );
+    document
+        .getElementById("loginError")
+        .style.display = "none";
 
-    }
+}
 
 
-    function addLog(icon, text, time) {
+/* =====================================================
+   LOGIN
+===================================================== */
 
-        const log = document.getElementById("log");
+function login() {
 
-        const item = document.createElement("div");
-
-        item.className = "log-item";
-
-        item.innerHTML = `
-            <div class="log-icon">${icon}</div>
-
-            <div>
-                <p>${text}</p>
-                <small>${time}</small>
-            </div>
-        `;
-
-        log.prepend(item);
-
-    }
+    const email =
+        document
+        .getElementById("email")
+        .value
+        .trim();
 
 
-    function showAlert(title, description, warning = false) {
+    const password =
+        document
+        .getElementById("password")
+        .value;
 
-        const alerts = document.getElementById("alerts");
 
-        const item = document.createElement("div");
+    const account =
+        CONFIG[selectedRole];
 
-        item.className = "alert";
 
-        if (warning) {
-            item.classList.add("warning");
+    if (
+        email === account.email &&
+        password === account.password
+    ) {
+
+        currentUser =
+            selectedRole;
+
+
+        document
+            .getElementById("loginPage")
+            .style.display = "none";
+
+
+        document
+            .getElementById("app")
+            .style.display = "block";
+
+
+        if (
+            currentUser === "guru"
+        ) {
+
+            setupGuru();
+
         }
 
-        item.innerHTML = `
-            <strong>${title}</strong>
-            <small>${description}</small>
-        `;
 
-        alerts.prepend(item);
+        if (
+            currentUser === "murid"
+        ) {
+
+            setupMurid();
+
+        }
+
+
+        addLog(
+            "Login berhasil",
+            currentUser === "guru"
+                ? "Guru masuk ke dashboard"
+                : "Murid masuk — akses CCTV 5 menit",
+            currentUser === "guru"
+                ? "👨‍🏫"
+                : "👨‍🎓"
+        );
 
     }
+
+    else {
+
+        document
+            .getElementById("loginError")
+            .style.display = "block";
+
+    }
+
+}
+
+
+/* =====================================================
+   SETUP GURU
+===================================================== */
+
+function setupGuru() {
+
+    document
+        .getElementById("userName")
+        .textContent =
+        "Guru";
+
+
+    document
+        .getElementById("userRole")
+        .textContent =
+        "👨‍🏫 Akses Guru";
+
+
+    document
+        .getElementById("studentAccess")
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById("playbackMenu")
+        .style.display =
+        "block";
+
+
+    document
+        .getElementById("teacherPlayback")
+        .style.display =
+        "block";
+
+
+    document
+        .getElementById("studentPlayback")
+        .style.display =
+        "none";
+
+
+    restoreCameras();
+
+}
+
+
+/* =====================================================
+   SETUP MURID
+===================================================== */
+
+function setupMurid() {
+
+    document
+        .getElementById("userName")
+        .textContent =
+        "Murid";
+
+
+    document
+        .getElementById("userRole")
+        .textContent =
+        "👨‍🎓 Akses Murid";
+
+
+    document
+        .getElementById("studentAccess")
+        .style.display =
+        "block";
+
+
+    document
+        .getElementById("playbackMenu")
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById("teacherPlayback")
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById("studentPlayback")
+        .style.display =
+        "block";
+
+
+    startStudentTimer();
+
+}
+
+
+/* =====================================================
+   TIMER MURID
+===================================================== */
+
+function startStudentTimer() {
+
+    clearInterval(timerInterval);
+
+
+    studentSeconds =
+        CONFIG.muridAccessSeconds;
+
+
+    updateTimer();
+
+
+    timerInterval =
+        setInterval(
+            function() {
+
+                studentSeconds--;
+
+                updateTimer();
+
+
+                if (
+                    studentSeconds <= 0
+                ) {
+
+                    clearInterval(
+                        timerInterval
+                    );
+
+                    expireStudentAccess();
+
+                }
+
+            },
+            1000
+        );
+
+}
+
+
+/* =====================================================
+   UPDATE TIMER
+===================================================== */
+
+function updateTimer() {
+
+    const minutes =
+        Math.floor(
+            studentSeconds / 60
+        );
+
+
+    const seconds =
+        studentSeconds % 60;
+
+
+    document
+        .getElementById("timer")
+        .textContent =
+
+        String(minutes)
+            .padStart(2, "0")
+
+        +
+
+        ":"
+
+        +
+
+        String(seconds)
+            .padStart(2, "0");
+
+}
+
+
+/* =====================================================
+   AKSES MURID HABIS
+===================================================== */
+
+function expireStudentAccess() {
+
+    document
+        .getElementById("studentAccess")
+        .innerHTML = `
+
+            🔒
+
+            <b>
+                Akses CCTV telah berakhir
+            </b>
+
+            <div style="
+                color:#91a5c3;
+                font-size:11px;
+                margin-top:6px;
+            ">
+
+                Waktu akses 5 menit telah habis.
+                Login kembali untuk mendapatkan
+                waktu akses baru.
+
+            </div>
+
+        `;
+
+
+    const cam =
+        document
+        .getElementById("cam1Box");
+
+
+    if (cam) {
+
+        cam.innerHTML = `
+
+            <div class="locked">
+
+                <div class="locked-icon">
+                    🔒
+                </div>
+
+                <b>
+                    WAKTU HABIS
+                </b>
+
+                <small>
+                    Akses CCTV Murid telah berakhir.
+                </small>
+
+            </div>
+
+        `;
+
+    }
+
+
+    addLog(
+        "Akses berakhir",
+        "Waktu akses CCTV Murid telah habis",
+        "🔒"
+    );
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout() {
+
+    clearInterval(
+        timerInterval
+    );
+
+    location.reload();
+
+}
+
+
+/* =====================================================
+   MENU SCROLL
+===================================================== */
+
+function scrollToSection(id) {
+
+    const element =
+        document.getElementById(id);
+
+
+    if (element) {
+
+        element.scrollIntoView({
+            behavior: "smooth"
+        });
+
+    }
+
+}
+
+
+/* =====================================================
+   LOG AKTIVITAS
+===================================================== */
+
+function addLog(
+    title,
+    description,
+    icon
+) {
+
+    const logs =
+        document.getElementById("logs");
+
+
+    if (!logs) return;
+
+
+    const log =
+        document.createElement("div");
+
+
+    log.className =
+        "log";
+
+
+    log.innerHTML = `
+
+        <div class="log-icon">
+
+            ${icon}
+
+        </div>
+
+
+        <div>
+
+            <b>
+                ${title}
+            </b>
+
+            <small>
+                ${description}
+            </small>
+
+        </div>
+
+    `;
+
+
+    logs.prepend(log);
+
+}
+
+
+/* =====================================================
+   DETEKSI AI
+===================================================== */
+
+function showDetection(id) {
+
+    const element =
+        document.getElementById(id);
+
+
+    if (!element) return;
+
+
+    element.style.display =
+        "block";
+
+
+    setTimeout(
+        function() {
+
+            element.style.display =
+                "none";
+
+        },
+        3500
+    );
+
+}
+
+
+/* =====================================================
+   JALANKAN AI
+===================================================== */
+
+function runAI() {
+
+    if (!currentUser) {
+
+        return;
+
+    }
+
+
+    showDetection(
+        "teacherDetect"
+    );
+
+
+    showDetection(
+        "studentDetect"
+    );
+
+
+    setTimeout(
+        function() {
+
+            showDetection(
+                "phoneDetect"
+            );
+
+        },
+        600
+    );
+
+
+    setTimeout(
+        function() {
+
+            showDetection(
+                "talkDetect"
+            );
+
+        },
+        1200
+    );
+
+
+    setTimeout(
+        function() {
+
+            showDetection(
+                "moveDetect"
+            );
+
+        },
+        1800
+    );
+
+
+    addLog(
+        "AI Scanning",
+        "AI sedang menganalisis aktivitas kelas",
+        "🤖"
+    );
+
+
+    document
+        .getElementById("confidence")
+        .textContent =
+
+        (
+            94 +
+            Math.floor(
+                Math.random() * 5
+            )
+        ) + "%";
+
+}
+
+
+/* =====================================================
+   SIMULASI PERINGATAN
+===================================================== */
+
+function createWarning() {
+
+    warningCount++;
+
+
+    document
+        .getElementById("warningCount")
+        .textContent =
+        String(warningCount)
+        .padStart(2, "0");
+
+
+    addLog(
+        "Peringatan AI",
+        "Aktivitas terdeteksi dan perlu diperiksa",
+        "⚠️"
+    );
+
+}
+
+
+/* =====================================================
+   STATISTIK REALTIME
+===================================================== */
+
+setInterval(
+    function() {
+
+        if (!currentUser) return;
+
+
+        studentCount =
+            10 +
+            Math.floor(
+                Math.random() * 7
+            );
+
+
+        teacherCount =
+            Math.random() > 0.8
+                ? 1
+                : 0;
+
+
+        document
+            .getElementById(
+                "studentCount"
+            )
+            .textContent =
+
+            String(studentCount)
+            .padStart(2, "0");
+
+
+        document
+            .getElementById(
+                "teacherCount"
+            )
+            .textContent =
+
+            String(teacherCount)
+            .padStart(2, "0");
+
+
+    },
+    4000
+);
+
+
+/* =====================================================
+   PLAYBACK VIDEO
+===================================================== */
+
+const videoFile =
+    document.getElementById(
+        "videoFile"
+    );
+
+
+if (videoFile) {
+
+    videoFile.addEventListener(
+        "change",
+        function(event) {
+
+            if (
+                currentUser !== "guru"
+            ) {
+
+                alert(
+                    "Playback hanya tersedia untuk Guru."
+                );
+
+                return;
+
+            }
+
+
+            const file =
+                event.target.files[0];
+
+
+            if (!file) return;
+
+
+            const video =
+                document.getElementById(
+                    "video"
+                );
+
+
+            video.src =
+                URL.createObjectURL(
+                    file
+                );
+
+
+            document
+                .getElementById(
+                    "videoBox"
+                )
+                .style.display =
+                "block";
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   RESTORE CAMERA
+===================================================== */
+
+function restoreCameras() {
+
+    location.reload();
+
+}
 
 </script>
 
 </body>
-</html>
+    </html>
