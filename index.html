@@ -370,7 +370,63 @@
         <h2>Dashboard Monitoring</h2>
         <p>Pemantauan keamanan sekolah berbasis Artificial Intelligence</p>
     </div>
+<!-- ========================================== -->
+<!-- ZONA TAMPILAN SMARTCLASS AI RUANG KELAS XI MIPA 3 -->
+<!-- ========================================== -->
+<div style="margin: 25px 0 10px 0; padding-bottom: 10px; border-bottom: 2px dashed #2d2d44; width: 100%;">
+    <h3 style="color: #fff; margin-bottom: 5px; font-size: 18px;">📹 SmartClass AI — Ruang Kelas XI MIPA 3</h3>
+    <p style="color: #888; font-size: 13px; margin: 0;">Sistem pemantauan internal kelas cerdas (4 Sudut Pandang)</p>
+</div>
 
+<div class="camera-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-bottom: 35px; width: 100%;">
+    
+    <!-- Kamera 01 — Depan -->
+    <div style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #ff4d4d; border: 1px solid #2d2d44; position: relative; box-sizing: border-box;">
+        <h4 style="margin: 0 0 10px 0; font-size: 14px;">Kamera 01 — Depan (Deket Guru)</h4>
+        <div id="layar-kelas-01" style="width: 100%; height: 120px; background: #0b0b14; border-radius: 6px; margin-bottom: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: #555; position: relative; overflow: hidden; border: 1px solid #2d2d44;">
+            <span>📺 FEED READY (ONLINE)</span>
+        </div>
+        <p style="margin: 0 0 12px 0; font-size: 13px;">Status: <span id="status-kelas-01" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
+        <button onclick="ubahPrivasiKelas(1)" style="background: #e63946; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;">ON/OFF PRIVASI</button>
+        <button onclick="simulasiAiKelas(1)" style="background: #4a4e69; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-left: 3px;">Simulasi AI</button>
+    </div>
+
+    <!-- Kamera 02 — Samping Kiri -->
+    <div style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #2ec4b6; border: 1px solid #2d2d44; position: relative; box-sizing: border-box;">
+        <h4 style="margin: 0 0 10px 0; font-size: 14px;">Kamera 02 — Samping Kiri</h4>
+        <div id="layar-kelas-02" style="width: 100%; height: 120px; background: #0b0b14; border-radius: 6px; margin-bottom: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: #555; position: relative; overflow: hidden; border: 1px solid #2d2d44;">
+            <span>📺 FEED READY (ONLINE)</span>
+        </div>
+        <p style="margin: 0 0 12px 0; font-size: 13px;">Status: <span id="status-kelas-02" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
+        <button onclick="ubahPrivasiKelas(2)" style="background: #e63946; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;">ON/OFF PRIVASI</button>
+        <button onclick="simulasiAiKelas(2)" style="background: #4a4e69; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-left: 3px;">Simulasi AI</button>
+    </div>
+
+    <!-- Kamera 03 — Samping Kanan -->
+    <div style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #2ec4b6; border: 1px solid #2d2d44; position: relative; box-sizing: border-box;">
+        <h4 style="margin: 0 0 10px 0; font-size: 14px;">Kamera 03 — Samping Kanan</h4>
+        <div id="layar-kelas-03" style="width: 100%; height: 120px; background: #0b0b14; border-radius: 6px; margin-bottom: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: #555; position: relative; overflow: hidden; border: 1px solid #2d2d44;">
+            <span>📺 FEED READY (ONLINE)</span>
+        </div>
+        <p style="margin: 0 0 12px 0; font-size: 13px;">Status: <span id="status-kelas-03" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
+        <button onclick="ubahPrivasiKelas(3)" style="background: #e63946; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;">ON/OFF PRIVASI</button>
+        <button onclick="simulasiAiKelas(3)" style="background: #4a4e69; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-left: 3px;">Simulasi AI</button>
+    </div>
+
+    <!-- Kamera 04 — Belakang Kelas -->
+    <div style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #2ec4b6; border: 1px solid #2d2d44; position: relative; box-sizing: border-box;">
+        <h4 style="margin: 0 0 10px 0; font-size: 14px;">Kamera 04 — Belakang Kelas</h4>
+        <div id="layar-kelas-04" style="width: 100%; height: 120px; background: #0b0b14; border-radius: 6px; margin-bottom: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: #555; position: relative; overflow: hidden; border: 1px solid #2d2d44;">
+            <span>📺 FEED READY (ONLINE)</span>
+        </div>
+        <p style="margin: 0 0 12px 0; font-size: 13px;">Status: <span id="status-kelas-04" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
+        <button onclick="ubahPrivasiKelas(4)" style="background: #e63946; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;">ON/OFF PRIVASI</button>
+        <button onclick="simulasiAiKelas(4)" style="background: #4a4e69; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-left: 3px;">Simulasi AI</button>
+    </div>
+
+</div>
+    
+    
 
     <!-- STATISTICS -->
 
@@ -808,62 +864,6 @@ function simulasiAiKelas(nomorCam) {
         }
     }, 1500);
 }
-    const layoutKelasHTML = `
-    <div style="margin: 20px 0; padding: 10px; border-bottom: 2px dashed #2d2d44;">
-        <h3 style="color: #fff; margin-bottom: 5px; font-size: 16px;">📹 SmartClass AI — Ruang Kelas XI MIPA 3</h3>
-        <p style="color: #666; font-size: 12px; margin: 0 0 15px 0;">Sistem pemantauan internal kelas cerdas (4 Sudut Pandang)</p>
-    </div>
-    <div class="camera-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; padding: 20px; background: #0f0f1a; border-radius: 10px; margin-bottom: 35px; border: 1px solid #2d2d44;">
-        
-        <!-- Cam 1 -->
-        <div class="camera-card" style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #ff4d4d;">
-            <h4 style="margin: 0 0 5px 0; font-size: 13px;">Kamera 01 — Depan (Deket Guru)</h4>
-            <div id="layar-kelas-01" style="width: 100%; height: 120px; background: #0b0b14; border-radius: 6px; margin-bottom: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: #555; position: relative; overflow: hidden; border: 1px solid #2d2d44;">
-                <span>📺 FEED READY (ONLINE)</span>
-            </div>
-            <p style="margin: 0 0 12px 0; font-size: 12px;">Status: <span id="status-kelas-01" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
-            <button onclick="ubahPrivasiKelas(1)" style="background: #e63946; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;">ON/OFF PRIVASI</button>
-            <button onclick="simulasiAiKelas(1)" style="background: #4a4e69; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-left: 3px;">Simulasi AI</button>
-        </div>
-
-        <!-- Cam 2 -->
-        <div class="camera-card" style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #2ec4b6;">
-            <h4 style="margin: 0 0 5px 0; font-size: 13px;">Kamera 02 — Samping Kiri</h4>
-            <div id="layar-kelas-02" style="width: 100%; height: 120px; background: #0b0b14; border-radius: 6px; margin-bottom: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: #555; position: relative; overflow: hidden; border: 1px solid #2d2d44;">
-                <span>📺 FEED READY (ONLINE)</span>
-            </div>
-            <p style="margin: 0 0 12px 0; font-size: 12px;">Status: <span id="status-kelas-02" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
-            <button onclick="ubahPrivasiKelas(2)" style="background: #e63946; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;">ON/OFF PRIVASI</button>
-            <button onclick="simulasiAiKelas(2)" style="background: #4a4e69; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-left: 3px;">Simulasi AI</button>
-        </div>
-
-        <!-- Cam 3 -->
-        <div class="camera-card" style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #2ec4b6;">
-            <h4 style="margin: 0 0 5px 0; font-size: 13px;">Kamera 03 — Samping Kanan</h4>
-            <div id="layar-kelas-03" style="width: 100%; height: 120px; background: #0b0b14; border-radius: 6px; margin-bottom: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: #555; position: relative; overflow: hidden; border: 1px solid #2d2d44;">
-                <span>📺 FEED READY (ONLINE)</span>
-            </div>
-            <p style="margin: 0 0 12px 0; font-size: 12px;">Status: <span id="status-kelas-03" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
-            <button onclick="ubahPrivasiKelas(3)" style="background: #e63946; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;">ON/OFF PRIVASI</button>
-            <button onclick="simulasiAiKelas(3)" style="background: #4a4e69; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-left: 3px;">Simulasi AI</button>
-        </div>
-
-        <!-- Cam 4 -->
-        <div class="camera-card" style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #2ec4b6;">
-            <h4 style="margin: 0 0 5px 0; font-size: 13px;">Kamera 04 — Belakang Kelas</h4>
-            <div id="layar-kelas-04" style="width: 100%; height: 120px; background: #0b0b14; border-radius: 6px; margin-bottom: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: #555; position: relative; overflow: hidden; border: 1px solid #2d2d44;">
-                <span>📺 FEED READY (ONLINE)</span>
-            </div>
-            <p style="margin: 0 0 12px 0; font-size: 12px;">Status: <span id="status-kelas-04" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
-            <button onclick="ubahPrivasiKelas(4)" style="background: #e63946; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;">ON/OFF PRIVASI</button>
-            <button onclick="simulasiAiKelas(4)" style="background: #4a4e69; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-left: 3px;">Simulasi AI</button>
-        </div>
-
-    </div>\`;
-
-    const wadahUtama = document.querySelector('.container') || document.body;
-    wadahUtama.insertBefore(document.createRange().createContextualFragment(layoutKelasHTML), wadahUtama.firstChild);
-});
 
 </script>
 
