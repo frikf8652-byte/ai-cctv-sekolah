@@ -651,7 +651,63 @@
         alerts.prepend(item);
 
     }
+// Fungsi Logika untuk 4 Kamera Baru
+function toggleLive(camNumber) {
+    const statusText = document.getElementById(`status-0${camNumber}`);
+    if (statusText) {
+        if (statusText.innerText === "ONLINE") {
+            statusText.innerText = "LIVE";
+            statusText.style.color = "#e63946";
+            showAlert(`Kamera 0${camNumber} LIVE`, `Streaming kamera 0${camNumber} berhasil dibuka.`, false);
+        } else {
+            statusText.innerText = "ONLINE";
+            statusText.style.color = "#2ec4b6";
+        }
+    }
+}
 
+function simulateAI(camNumber) {
+    const namaKamera = ["Gerbang School", "Gerbang Sekolah", "Koridor", "Lapangan", "Kelas"];
+    addLog("🤖", `Simulasi AI Kamera 0${camNumber}`, `Memeriksa area ${namaKamera[camNumber]}...`);
+    
+    setTimeout(() => {
+        showAlert(`AI Kamera 0${camNumber}`, `Aktivitas di ${namaKamera[camNumber]} terpantau normal.`, false);
+    }, 1500);
+    }
+// Otomatis memunculkan 4 kamera di bagian paling atas dashboard saat web dimuat
+window.addEventListener('DOMContentLoaded', () => {
+    const cameraHTML = `
+    <div class="camera-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; padding: 20px; background: #0f0f1a; border-radius: 10px; margin-bottom: 25px; border: 1px solid #2d2d44;">
+        <div class="camera-card" id="cam-01" style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #2ec4b6;">
+            <h4 style="margin: 0 0 10px 0; font-size: 14px;">Kamera 01 — Gerbang Sekolah</h4>
+            <p style="margin: 0 0 15px 0; font-size: 13px;">Status: <span id="status-01" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
+            <button onclick="toggleLive(1)" style="background: #e63946; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold;">LIVE</button>
+            <button onclick="simulateAI(1)" style="background: #4a4e69; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; margin-left: 5px;">Simulasi AI</button>
+        </div>
+        <div class="camera-card" id="cam-02" style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #2ec4b6;">
+            <h4 style="margin: 0 0 10px 0; font-size: 14px;">Kamera 02 — Koridor</h4>
+            <p style="margin: 0 0 15px 0; font-size: 13px;">Status: <span id="status-02" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
+            <button onclick="toggleLive(2)" style="background: #e63946; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold;">LIVE</button>
+            <button onclick="simulateAI(2)" style="background: #4a4e69; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; margin-left: 5px;">Simulasi AI</button>
+        </div>
+        <div class="camera-card" id="cam-03" style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #2ec4b6;">
+            <h4 style="margin: 0 0 10px 0; font-size: 14px;">Kamera 03 — Lapangan</h4>
+            <p style="margin: 0 0 15px 0; font-size: 13px;">Status: <span id="status-03" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
+            <button onclick="toggleLive(3)" style="background: #e63946; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold;">LIVE</button>
+            <button onclick="simulateAI(3)" style="background: #4a4e69; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; margin-left: 5px;">Simulasi AI</button>
+        </div>
+        <div class="camera-card" id="cam-04" style="background: #1e1e2e; border-radius: 8px; padding: 15px; color: #fff; border-left: 4px solid #2ec4b6;">
+            <h4 style="margin: 0 0 10px 0; font-size: 14px;">Kamera 04 — Kelas</h4>
+            <p style="margin: 0 0 15px 0; font-size: 13px;">Status: <span id="status-04" style="color: #2ec4b6; font-weight: bold;">ONLINE</span></p>
+            <button onclick="toggleLive(4)" style="background: #e63946; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold;">LIVE</button>
+            <button onclick="simulateAI(4)" style="background: #4a4e69; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; margin-left: 5px;">Simulasi AI</button>
+        </div>
+    </div>`;
+    
+    // Menyisipkan 4 kamera ke bagian paling atas elemen body
+    document.body.insertAdjacentHTML('afterbegin', cameraHTML);
+});
+            
 </script>
 
 </body>
